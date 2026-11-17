@@ -53,6 +53,10 @@ Peer dependencies: `vue` 3.5, `vue-router` (PopButton closes on navigation) and 
 - **Presentation only.** No business rules, no API calls, no hosts, no product data. What a
   front shows and to whom is decided in the front and passed in as props.
 - **No colour literal outside `src/tokens.css`.**
-- **Browser support: Baseline Widely available.** Newer features only with a fallback.
+- **Modern web guidance.** Every change follows
+  [modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance): native elements
+  and current web platform features instead of old patterns.
+- **Browser support: Baseline Widely available.** Newer features only with the fallback the
+  guide gives.
 - A change that alters how a component looks or behaves is a new version (a git tag) and a line
   in `CHANGELOG.md`. Fronts move to it by changing the tag in their `package.json`.

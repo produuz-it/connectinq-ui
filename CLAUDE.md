@@ -15,13 +15,28 @@ only**:
 
 When in doubt, it stays in the front.
 
+## 🧭 Modern web guidance — use it for every change
+
+This repository follows [`modern-web-guidance`](https://github.com/GoogleChrome/modern-web-guidance)
+(Chrome, Edge, Firefox and MDN teams). The plugin is enabled in `.claude/settings.json`. Everything
+here is HTML, CSS or client-side JS, so every change starts with it: search the guides for what you
+are about to build, and follow them, so the components use current web platform features and not
+the old patterns in an agent's training data.
+
+- **Browser policy: Baseline Widely available.** Features that are Baseline Widely available are
+  used without fallbacks. A newer feature is used only with the fallback the guide gives (for
+  example `<dialog closedby>`, which ModalDialog replaces with a backdrop click handler, and the
+  Popover API, which PopButton replaces with fixed positioning).
+- Native elements first: `<dialog>`, `<details>`, form controls, before any script of our own.
+- The skill runs `npx -y modern-web-guidance@latest search|retrieve …` (`npx.cmd` on Windows). If
+  it has to be allowlisted, allow that command only, never a bare `npx *`.
+- `npx -y modern-web-guidance@latest legacy-scan src` lists legacy patterns. Run it before a new
+  version is tagged.
+
 ## Rules
 
 - **English everywhere**: code, comments, docs, commit messages.
 - **No colour literal outside `src/tokens.css`**: a new colour is a new `--cq-*` token.
-- **Modern web guidance**: the `modern-web-guidance` plugin is enabled in `.claude/settings.json`.
-  Use it before writing or changing HTML, CSS or client-side JS. Browser policy: **Baseline Widely
-  available**; a newer feature only with the fallback the guide gives.
 - **Versions**: a change that alters how something looks or behaves gets a line in
   `CHANGELOG.md`, a version bump in `package.json` and a tag (`v0.2.0`). The fronts pin a tag.
 - **Never commit and never push** unless the owner asks for that commit. No AI co-author or
