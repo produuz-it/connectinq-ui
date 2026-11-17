@@ -41,6 +41,9 @@ the old patterns in an agent's training data.
   have been checked with it. A front's `test` branch installs `#test`, its `main`/`master` branch
   installs `#main`. A change that alters how something looks or behaves gets a line in
   `CHANGELOG.md` and a version bump in `package.json`.
+- **The fronts' `main` depends on this repo's `main`.** A front (planner-front, mob-lite,
+  saw-splitter-front, delivery-front) may push or merge its `test` into `main` only after this
+  repo's `test` has been merged into `main`: merge here first, then the front.
 - **Never commit and never push** unless the owner asks for that commit. No AI co-author or
   attribution in commits.
 
