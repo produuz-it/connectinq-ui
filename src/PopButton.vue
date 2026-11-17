@@ -37,7 +37,10 @@ function position() {
   const anchor = button.value?.getBoundingClientRect()
   if (!anchor) return
   if (props.phone) {
-    place.value = { left: '0', right: '0', top: `${Math.round(anchor.bottom + GAP)}px`, width: 'auto' }
+    // Full width; above the button when it sits low (an account at the foot of a drawer).
+    place.value = props.side === 'above'
+      ? { left: '0', right: '0', width: 'auto', bottom: `${Math.round(window.innerHeight - anchor.top + GAP)}px`, maxHeight: `${Math.round(anchor.top - GAP - EDGE)}px` }
+      : { left: '0', right: '0', width: 'auto', top: `${Math.round(anchor.bottom + GAP)}px` }
     return
   }
   const width = Math.min(props.width, window.innerWidth - 2 * EDGE)
@@ -137,7 +140,7 @@ defineExpose({ close })
   font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--cq-n500); padding: 10px 14px 6px; display: flex; align-items: center; gap: 8px;
 }
-.pop-head .grow { flex: 1; }
+.pop-panel .grow { flex: 1; min-width: 0; }
 .pop-error { color: var(--cq-accent-hover); font-weight: 600; padding: 6px 14px; }
 .pop-foot { font-size: 11.5px; color: var(--cq-n500); padding: 8px 14px; border-top: 1px solid var(--cq-n100); line-height: 1.4; }
 .pop-row {

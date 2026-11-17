@@ -27,6 +27,11 @@ const props = defineProps<{
   drawer?: boolean
 }>()
 const emit = defineEmits<{ close: []; fold: [folded: boolean] }>()
+defineSlots<{
+  head?: (props: { side: 'right' | 'below' }) => unknown
+  company?: (props: { rail: boolean; drawer: boolean }) => unknown
+  foot?: (props: { rail: boolean; drawer: boolean }) => unknown
+}>()
 
 const open = ref(new Set<string>())
 const here = computed(() => props.sections.find((section) => section.here)?.key)
@@ -47,7 +52,7 @@ const isCurrent = (section: FrameSection) => !!section.current || (!isGroup(sect
 <template>
   <nav class="cq-menu" :class="{ rail, drawer }" :aria-label="labels.menu">
     <div class="head">
-      <RouterLink :to="brand.to" class="brand" :title="brand.name">
+      <RouterLink :to="brand.to" class="brand" :title="brand.title ?? brand.name">
         <img :src="brand.mark" alt="" />
         <span v-if="!rail" class="words">
           <span class="wordmark">{{ brand.name.toUpperCase() }}<span class="dot-mark">.</span></span>
@@ -55,9 +60,9 @@ const isCurrent = (section: FrameSection) => !!section.current || (!isGroup(sect
         </span>
       </RouterLink>
       <TestTag v-if="rail" :show="!!test" />
-      <span v-if="!rail" class="grow" />
+      <span v-if="!rail" class="cq-grow" />
       <slot v-if="!drawer" name="head" :side="rail ? 'right' : 'below'" />
-      <button v-else type="button" class="icon-btn plain" :title="labels.close" :aria-label="labels.close" @click="emit('close')">
+      <button v-else type="button" class="cq-menu-btn" :title="labels.close" :aria-label="labels.close" @click="emit('close')">
         <LucideX :size="20" />
       </button>
     </div>
@@ -76,22 +81,22 @@ const isCurrent = (section: FrameSection) => !!section.current || (!isGroup(sect
         <RouterLink v-else-if="!isGroup(section)" class="item" :class="{ current: isCurrent(section), here: section.here }" :to="target(section)">
           <component :is="section.icon" :size="18" />
           <span class="label">{{ section.label }}</span>
-          <span v-if="section.count !== undefined" class="count" :class="{ bad: section.countTone === 'bad' }">{{ section.count }}</span>
+          <span v-if="section.count !== undefined" class="cq-count" :class="{ bad: section.countTone === 'bad' }">{{ section.count }}</span>
         </RouterLink>
 
         <template v-else>
           <button type="button" class="item" :class="{ here: section.here }" :aria-expanded="open.has(section.key)" @click="toggle(section.key)">
             <component :is="section.icon" :size="18" />
             <span class="label">{{ section.label }}</span>
-            <span v-if="section.count !== undefined" class="count" :class="{ bad: section.countTone === 'bad' }">{{ section.count }}</span>
+            <span v-if="section.count !== undefined" class="cq-count" :class="{ bad: section.countTone === 'bad' }">{{ section.count }}</span>
             <LucideChevronDown :size="14" class="chevron" :class="{ up: open.has(section.key) }" />
           </button>
           <template v-if="open.has(section.key)">
             <RouterLink v-for="entry in section.entries" :key="entry.key" class="entry"
                         :class="{ current: entry.current, desk: drawer && entry.deskOnly }" :to="entry.to" :title="entry.label">
               <span class="label">{{ entry.label }}</span>
-              <span v-if="entry.count !== undefined" class="count" :class="{ bad: entry.countTone === 'bad' }">{{ entry.count }}</span>
-              <LucideMonitor v-if="drawer && entry.deskOnly" :size="14" />
+              <span v-if="entry.count !== undefined" class="cq-count" :class="{ bad: entry.countTone === 'bad' }">{{ entry.count }}</span>
+              <LucideMonitor v-if="drawer && entry.deskOnly" :size="14" role="img" :aria-label="labels.deskOnly" />
             </RouterLink>
           </template>
         </template>
@@ -158,7 +163,19 @@ const isCurrent = (section: FrameSection) => !!section.current || (!isGroup(sect
 .entry.current { background: var(--cq-selected); font-weight: 700; box-shadow: inset 3px 0 0 var(--cq-accent); }
 .entry .label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .entry.desk { color: var(--cq-n400); }
-.count.bad { background: var(--cq-accent-hover); color: var(--cq-white); }
+.cq-grow { flex: 1; min-width: 0; }
+.cq-menu-btn {
+  width: 44px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center;
+  border: 0; background: none; padding: 0; color: inherit; cursor: pointer;
+}
+.cq-menu-btn:hover { background: var(--cq-n50); color: var(--cq-accent-hover); }
+.cq-count {
+  flex: none; min-width: 20px; height: 18px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--cq-mono); font-size: 11px; font-weight: 500; background: var(--cq-n100); color: var(--cq-ink);
+}
+.cq-count.bad { background: var(--cq-accent-hover); color: var(--cq-white); }
+/* A company slot that draws nothing in the rail leaves no empty row. */
+.rail .company-row:empty { display: none; }
 
 .foot { flex: none; padding: 6px 8px 8px; border-top: 1px solid var(--cq-n100); display: flex; flex-direction: column; gap: 2px; }
 .rail .foot { padding: 6px 0 8px; align-items: center; width: 100%; }

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.1
+
+- PopButton on a phone with `side: 'above'` opens its sheet above the button: the account panel
+  at the foot of a drawer no longer opens off the screen.
+- AccountMenu: the avatar takes the first letters of the first and last word of the name (or an
+  `initials` prop), and its default slot gets `close`.
+- SideMenu: `brand.title` for the mark's tooltip, `labels.deskOnly` for the desk-only mark, typed
+  slots (`head` gets `side: 'right' | 'below'`), and an empty company row is hidden in the rail.
+- The frame components carry their own button, count and spacer styles, so a front that loads
+  only `tokens.css` draws them right, whatever its own `.icon-btn` or `.count` look like.
+- `useFrame().scroller`: the element the screen scrolls in.
+
 ## 0.2.0
 
 - The frame: `AppLayout` (the menu on the left, a top bar and a drawer on a phone, the tabs strip

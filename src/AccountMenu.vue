@@ -3,7 +3,8 @@
  * The user area at the foot of the menu: the avatar and the name (with an optional badge, such as
  * a level), and a panel with who is signed in, the front's own blocks (default slot), the
  * language, and the sign-out. In the rail only the avatar shows. The front passes the texts and
- * reacts to `language` and `sign-out`; what signing out does is the front's.
+ * reacts to `language` and `sign-out`; what signing out does is the front's. On a phone (`phone`)
+ * the panel is a full-width sheet above the button, which sits at the foot of the drawer.
  */
 import { computed } from 'vue'
 import { LucideCheck, LucideLogOut } from '@lucide/vue'
@@ -11,6 +12,8 @@ import PopButton from './PopButton.vue'
 
 const props = defineProps<{
   name: string
+  /** The avatar's letters; by default the first letters of the first and last word of the name. */
+  initials?: string
   /** Lines under the name in the panel: an e-mail address, a company. */
   lines?: string[]
   /** A short tag beside the name, such as a level; `warn` draws it in vermilion. */
@@ -27,12 +30,17 @@ const props = defineProps<{
 }>()
 const emit = defineEmits<{ language: [value: string]; 'sign-out': []; open: [] }>()
 
-const initials = computed(() =>
-  props.name.split(/\s+/).filter(Boolean).slice(0, 2).map((word) => word[0]?.toUpperCase()).join('') || '?')
+const initials = computed(() => {
+  if (props.initials) return props.initials
+  const words = props.name.split(/\s+/).filter(Boolean)
+  const first = words[0]?.[0] ?? ''
+  const last = words.length > 1 ? words[words.length - 1]?.[0] ?? '' : ''
+  return (first + last).toUpperCase() || '?'
+})
 </script>
 
 <template>
-  <PopButton class="cq-account" :class="{ rail }" :label="labels.title" :side="phone ? 'below' : 'above'" :phone="phone" :width="280" @open="emit('open')">
+  <PopButton class="cq-account" :class="{ rail }" :label="labels.title" side="above" :phone="phone" :width="280" @open="emit('open')">
     <template #button>
       <span class="cq-avatar">{{ initials }}</span>
       <template v-if="!rail">
@@ -40,11 +48,13 @@ const initials = computed(() =>
         <span v-if="badge" class="cq-badge" :class="badge.tone">{{ badge.label }}</span>
       </template>
     </template>
+    <template #default="{ close }">
     <div class="who-card">
       <b>{{ name }}</b>
       <small v-for="line in lines ?? []" :key="line">{{ line }}</small>
     </div>
-    <slot />
+    <!-- The front's own blocks; `close` closes the panel (before a guided tour, say). -->
+    <slot :close="close" />
     <div class="block">
       <div class="pop-head">{{ labels.language }}</div>
       <button v-for="option in languages" :key="option.value" type="button" class="pop-row" :class="{ current: language === option.value }"
@@ -61,6 +71,7 @@ const initials = computed(() =>
       </button>
       <p v-if="labels.signOutHint" class="text">{{ labels.signOutHint }}</p>
     </div>
+    </template>
   </PopButton>
 </template>
 

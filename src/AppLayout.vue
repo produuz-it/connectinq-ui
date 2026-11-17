@@ -6,7 +6,8 @@
  *
  * The front draws its menu in the `menu` slot (an instance of SideMenu), which the frame places
  * on the desk or in the drawer and tells which: `{ rail, drawer, close }`. A screen that draws its
- * own phone bar (`phoneBar: false`) opens the drawer with `useFrame().openMenu`.
+ * own phone bar (`phoneBar: false`) opens the drawer with `useFrame().openMenu`. The screen
+ * scrolls inside the frame, not the window: `useFrame().scroller` is that element.
  * Slots: `menu`, `bar` (buttons at the end of the phone bar), the screen (default), `after`
  * (layers outside the frame, such as a guided tour).
  */
@@ -34,6 +35,7 @@ const props = withDefaults(defineProps<{
 const route = useRoute()
 const phone = useIsPhone()
 const drawer = ref(false)
+const scroller = ref<HTMLElement | null>(null)
 
 function openMenu() {
   drawer.value = true
@@ -41,7 +43,7 @@ function openMenu() {
 function closeMenu() {
   drawer.value = false
 }
-provide(FRAME_KEY, { openMenu })
+provide(FRAME_KEY, { openMenu, scroller })
 
 // The drawer closes when a screen opens, on Escape, and never stays open on the desk.
 watch(() => route.fullPath, closeMenu)
@@ -63,7 +65,7 @@ const showTabs = () => (phone.value || props.folded) && props.tabs.length > 0
     <slot v-if="!phone" name="menu" :rail="folded" :drawer="false" :close="closeMenu" />
 
     <header v-else-if="phoneBar" class="bar">
-      <button type="button" class="icon-btn plain" :title="labels.openMenu" :aria-label="labels.openMenu" :aria-expanded="drawer" @click="openMenu">
+      <button type="button" class="cq-menu-btn" :title="labels.openMenu" :aria-label="labels.openMenu" :aria-expanded="drawer" @click="openMenu">
         <LucideMenu :size="20" />
       </button>
       <span class="title">{{ title }}</span>
@@ -75,10 +77,10 @@ const showTabs = () => (phone.value || props.folded) && props.tabs.length > 0
       <nav v-if="showTabs()" class="tabs" :aria-label="tabsTitle || title">
         <b v-if="!phone && tabsTitle" class="section">{{ tabsTitle }}</b>
         <RouterLink v-for="tab in tabs" :key="tab.key" class="tab" :class="{ on: tab.current }" :to="tab.to">
-          {{ tab.label }}<span v-if="tab.count !== undefined" class="count" :class="{ on: tab.current }">{{ tab.count }}</span>
+          {{ tab.label }}<span v-if="tab.count !== undefined" class="cq-count" :class="{ on: tab.current }">{{ tab.count }}</span>
         </RouterLink>
       </nav>
-      <main class="screen"><slot /></main>
+      <main ref="scroller" class="screen"><slot /></main>
     </div>
 
     <template v-if="phone && drawer">
@@ -112,7 +114,16 @@ const showTabs = () => (phone.value || props.folded) && props.tabs.length > 0
 }
 .tab:hover { border-color: var(--cq-ink); }
 .tab.on { background: var(--cq-ink); border-color: var(--cq-ink); color: var(--cq-white); }
-.tab .count.on { background: var(--cq-white); color: var(--cq-ink); }
+.cq-count {
+  min-width: 20px; height: 18px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--cq-mono); font-size: 11px; font-weight: 500; background: var(--cq-n100); color: var(--cq-ink);
+}
+.tab .cq-count.on { background: var(--cq-white); color: var(--cq-ink); }
+.cq-menu-btn {
+  width: 44px; height: 44px; flex: none; display: flex; align-items: center; justify-content: center;
+  border: 0; background: none; padding: 0; color: inherit; cursor: pointer;
+}
+.cq-menu-btn:hover { background: var(--cq-n50); color: var(--cq-accent-hover); }
 .phone .tabs { min-height: 52px; }
 .phone .tab { min-height: 36px; padding: 0 12px; }
 

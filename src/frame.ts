@@ -44,6 +44,8 @@ export interface FrameBrand {
   /** The application's name; drawn in tracked caps with an accent dot. */
   name: string
   to: RouteLocationRaw
+  /** The mark's tooltip; the name by default. */
+  title?: string
 }
 
 export interface MenuLabels {
@@ -52,6 +54,8 @@ export interface MenuLabels {
   close: string
   fold: string
   unfold: string
+  /** What the monitor mark of a desk-only entry says to a screen reader. */
+  deskOnly?: string
 }
 
 /** A tab of the strip above the screen (on a phone, and on the desk with the menu folded). */
@@ -83,11 +87,13 @@ export function useFolded(key: string): { folded: Ref<boolean>; setFolded: (valu
 /** What AppLayout gives the screens: a screen that draws its own phone bar opens the menu with it. */
 export interface FrameControls {
   openMenu: () => void
+  /** The element the screen scrolls in (the frame scrolls the screen, not the window). */
+  scroller: Ref<HTMLElement | null>
 }
 
 export const FRAME_KEY: InjectionKey<FrameControls> = Symbol('cq-frame')
 
 /** The frame's controls, or a no-op outside AppLayout. */
 export function useFrame(): FrameControls {
-  return inject(FRAME_KEY, { openMenu: () => {} })
+  return inject(FRAME_KEY, { openMenu: () => {}, scroller: ref<HTMLElement | null>(null) })
 }
