@@ -11,6 +11,10 @@ on floating panels.
 | `connectinq-ui/tokens.css` | The colour, font and shadow tokens (`--cq-*`). The only file with colour literals. |
 | `connectinq-ui/base.css` | Type, buttons (`.btn`, `.btn.primary`, `.icon-btn`), fields, cards, tables (`table.cq`), chips, banners, progress, dialog and toast styles. |
 | `connectinq-ui/cq.css` | Both of the above. |
+| `connectinq-ui/AppLayout.vue` | The frame: the menu on the left, a top bar with the menu as a drawer on a phone, the tabs strip of the open section. |
+| `connectinq-ui/SideMenu.vue` | The menu: the mark and the name, sections and their screens (groups that open and close), a rail when folded, links and the account at the foot. |
+| `connectinq-ui/AccountMenu.vue` | The user area: avatar, name, badge; a panel with who is signed in, the front's blocks, the language and the sign-out. |
+| `connectinq-ui/frame` | The frame's types (`FrameSection`, `FrameEntry`, `FrameTab`, `FrameBrand`), `useFolded(key)` and `useFrame()`. |
 | `connectinq-ui/ModalDialog.vue` | A modal on the native `<dialog>`: centred, side drawer, bottom sheet or full screen. |
 | `connectinq-ui/PopButton.vue` | A button that opens a floating panel (menus, switchers); a sheet on a phone. |
 | `connectinq-ui/AppSwitcher.vue` | The application switcher. The front passes the entries and the texts (`connectinq-ui/switcher`). |
