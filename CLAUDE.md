@@ -37,8 +37,10 @@ the old patterns in an agent's training data.
 
 - **English everywhere**: code, comments, docs, commit messages.
 - **No colour literal outside `src/tokens.css`**: a new colour is a new `--cq-*` token.
-- **Versions**: a change that alters how something looks or behaves gets a line in
-  `CHANGELOG.md`, a version bump in `package.json` and a tag (`v0.2.0`). The fronts pin a tag.
+- **Branches `test` and `main`**: work on `test`, merge into `main` once the fronts' test builds
+  have been checked with it. A front's `test` branch installs `#test`, its `main`/`master` branch
+  installs `#main`. A change that alters how something looks or behaves gets a line in
+  `CHANGELOG.md` and a version bump in `package.json`.
 - **Never commit and never push** unless the owner asks for that commit. No AI co-author or
   attribution in commits.
 
@@ -49,4 +51,5 @@ npm install
 npm run check   # vue-tsc over every .ts and .vue file
 ```
 
-Then install the new tag in a front that uses it and look at the screen there.
+Then, in a front that uses it, run `npm update connectinq-ui` on its `test` branch and look at
+the screen there.

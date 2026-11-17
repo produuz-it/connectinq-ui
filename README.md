@@ -24,12 +24,20 @@ for example with `@fontsource`.
 
 ## Using it
 
-The package ships its source (`.vue`, `.ts`, `.css`); the front's Vite compiles it. Install a
-tagged version from GitHub:
+The package ships its source (`.vue`, `.ts`, `.css`); the front's Vite compiles it. It has two
+branches, as the fronts do: **`test`** and **`main`**. A front's `test` branch installs the
+library's `test` branch, and its `main` (or `master`) branch installs the library's `main`:
 
 ```bash
-npm install --save-exact github:produuz-it/connectinq-ui#v0.1.0
+# on the front's test branch
+npm install --save-exact github:produuz-it/connectinq-ui#test
+# on the front's main branch
+npm install --save-exact github:produuz-it/connectinq-ui#main
 ```
+
+The lock file pins the commit, so a front moves to the latest library commit only when someone
+runs `npm update connectinq-ui` there and commits the lock. When a front merges `test` into
+`main`, the dependency is switched back to `#main` in the same merge.
 
 ```ts
 // main.ts
@@ -58,5 +66,6 @@ Peer dependencies: `vue` 3.5, `vue-router` (PopButton closes on navigation) and 
   and current web platform features instead of old patterns.
 - **Browser support: Baseline Widely available.** Newer features only with the fallback the
   guide gives.
-- A change that alters how a component looks or behaves is a new version (a git tag) and a line
-  in `CHANGELOG.md`. Fronts move to it by changing the tag in their `package.json`.
+- Changes go to `test` first; `test` is merged into `main` when the fronts' `test` builds have
+  been checked with it. A change that alters how a component looks or behaves gets a line in
+  `CHANGELOG.md` and a version bump in `package.json`.
