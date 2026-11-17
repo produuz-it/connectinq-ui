@@ -7,7 +7,8 @@
  *
  * Clicking the backdrop closes it too. `closedby="any"` would do that on its own but is not
  * Baseline Widely available, so a click that lands on the <dialog> itself (only the backdrop
- * can: the content fills it) closes it here. The styles are `dialog.cq-dialog` in base.css;
+ * can: the content fills it) closes it here. The styles are `dialog.cq-dialog` and `cq-dialog--<shape>` in
+ * base.css (prefixed, so they never meet an app's own `center` or `side` class);
  * the content uses `dlg-head` (with a `ttl`), `dlg-body` and `dlg-foot`.
  */
 import { onMounted, ref, watch } from 'vue'
@@ -47,7 +48,7 @@ function onClick(event: MouseEvent) {
   <dialog
     ref="el"
     class="cq-dialog"
-    :class="shape"
+    :class="`cq-dialog--${shape}`"
     :style="shape === 'center' || shape === 'side' ? { width: `${width}px` } : undefined"
     :aria-label="label"
     :aria-labelledby="labelledby"

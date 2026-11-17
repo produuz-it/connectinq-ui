@@ -110,7 +110,7 @@ defineExpose({ close })
   <Teleport to="body">
     <template v-if="open">
       <div class="pop-backdrop" @click="close" />
-      <div class="pop-panel" :class="{ sheet: phone }" :style="place" role="dialog" :aria-label="label">
+      <div class="pop-panel" :class="{ 'pop-panel--sheet': phone }" :style="place" role="dialog" :aria-label="label">
         <slot :close="close" />
       </div>
     </template>
@@ -132,7 +132,7 @@ defineExpose({ close })
   position: fixed; z-index: 61; background: var(--cq-white); border: 1px solid var(--cq-n200);
   box-shadow: var(--cq-float-shadow); overflow: auto; overscroll-behavior: contain; font-size: 13px; color: var(--cq-ink);
 }
-.pop-panel.sheet { border-width: 1px 0; max-height: 70vh; }
+.pop-panel--sheet { border-width: 1px 0; max-height: 70vh; }
 .pop-head {
   font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--cq-n500); padding: 10px 14px 6px; display: flex; align-items: center; gap: 8px;
@@ -147,5 +147,5 @@ defineExpose({ close })
 .pop-row:hover { background: var(--cq-n50); }
 .pop-row.current { background: var(--cq-selected); cursor: default; }
 .pop-row[disabled] { cursor: default; color: var(--cq-n400); }
-.pop-panel.sheet .pop-row { min-height: 48px; }
+.pop-panel--sheet .pop-row { min-height: 48px; }
 </style>

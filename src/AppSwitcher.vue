@@ -53,7 +53,7 @@ const shown = computed(() => props.entries.some((entry) => entry.href))
 
 <style scoped>
 .app { gap: 14px; min-height: 60px; padding-top: 10px; padding-bottom: 10px; }
-.pop-panel.sheet .app { min-height: 64px; }
+.pop-panel--sheet .app { min-height: 64px; }
 .app.here { cursor: default; }
 .app.here:hover { background: none; }
 .tile { width: 36px; height: 36px; flex: none; display: flex; align-items: center; justify-content: center; }
