@@ -1,0 +1,188 @@
+/* ConnectinQ base styles: type, buttons, fields, cards, tables, chips, banners, progress,
+   dialogs, the toast. Raleway (ExtraBold titles, Regular text) and Roboto Mono for numbers,
+   square corners, no shadows except on floating panels. Every colour is a token of
+   tokens.css; there is no colour literal here. */
+
+* { box-sizing: border-box; }
+html {
+  color-scheme: light;
+  font-family: var(--cq-font);
+  /* Raleway draws old-style figures by default: "0u" reads as "ou". */
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--cq-ink);
+  background: var(--cq-white);
+}
+body { margin: 0; font-size: 13px; line-height: 1.4; background: var(--cq-white); -webkit-font-smoothing: antialiased; }
+
+/* Square corners everywhere is a brand rule; spinners and dots stay round. */
+*:not([class*="spinner"]):not(.dot) { border-radius: 0 !important; }
+input[type="checkbox"], input[type="radio"], input[type="range"] { accent-color: var(--cq-accent); }
+
+button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--cq-accent); outline-offset: 2px; }
+:where(input, select, textarea):focus-visible { outline: 2px solid var(--cq-accent); outline-offset: -1px; border-color: transparent; }
+
+/* ── Type ─────────────────────────────────────────────────────────────── */
+h1 { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: 0.02em; color: var(--cq-ink); }
+h2 { margin: 0; font-size: 0.95rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+h3 { margin: 0; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cq-ink); }
+h4 { margin: 0; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cq-accent); }
+/* Micro label: the small tracked caption of the design (field labels, list heads). */
+.micro { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cq-n500); margin: 0; }
+.mono { font-family: var(--cq-mono); font-size: 0.93em; font-variant-numeric: tabular-nums; }
+.hint { font-size: 12px; color: var(--cq-n500); }
+.muted { color: var(--cq-n500); }
+.dim { color: var(--cq-n400); }
+.grow { flex: 1; min-width: 0; }
+.nowrap { white-space: nowrap; }
+.link { color: inherit; font-weight: 700; text-decoration: underline; text-decoration-color: var(--cq-accent); text-underline-offset: 3px; cursor: pointer; background: none; border: 0; padding: 0; font: inherit; }
+.link:hover { color: var(--cq-accent-hover); }
+
+/* ── Buttons ──────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 32px; padding: 0 14px;
+  border: 1px solid var(--cq-n200); background: var(--cq-white); color: var(--cq-ink); cursor: pointer;
+  font: inherit; font-size: 12px; font-weight: 600; white-space: nowrap; text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.btn:hover:not(:disabled) { border-color: var(--cq-ink); }
+.btn:disabled { color: var(--cq-n300); border-color: var(--cq-n100); cursor: default; }
+/* Primary: ink, uppercase tracked; orange on hover, violet when pressed. */
+.btn.primary { background: var(--cq-ink); border-color: var(--cq-ink); color: var(--cq-white); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.btn.primary:hover:not(:disabled) { background: var(--cq-accent); border-color: var(--cq-accent); color: var(--cq-ink); }
+.btn.primary:active:not(:disabled) { background: var(--cq-purple-dark); border-color: var(--cq-purple-dark); color: var(--cq-white); }
+.btn.primary:disabled { background: var(--cq-ink); border-color: var(--cq-ink); color: var(--cq-white); opacity: 0.45; }
+.btn.danger { color: var(--cq-danger); border-color: var(--cq-danger); }
+.btn.danger:hover:not(:disabled) { background: var(--cq-danger); color: var(--cq-white); }
+.btn.primary.danger { background: var(--cq-danger); border-color: var(--cq-danger); color: var(--cq-white); }
+.btn.primary.danger:hover:not(:disabled) { background: var(--cq-accent-hover); border-color: var(--cq-accent-hover); color: var(--cq-ink); }
+/* Text: no border, for the quiet action beside a primary one. */
+.btn.text { border-color: transparent; background: none; }
+.btn.text:hover:not(:disabled) { background: var(--cq-n50); border-color: transparent; }
+.btn.text.danger { color: var(--cq-danger); }
+.btn.text.danger:hover:not(:disabled) { background: var(--cq-warn-tint); color: var(--cq-danger); }
+.btn.block { width: 100%; }
+/* An icon only, with a hairline; .plain drops it (bars, close buttons). */
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; flex: none; padding: 0;
+  border: 1px solid var(--cq-n200); background: var(--cq-white); color: var(--cq-ink); cursor: pointer;
+}
+.icon-btn:hover:not(:disabled) { border-color: var(--cq-ink); }
+.icon-btn:disabled { color: var(--cq-n300); border-color: var(--cq-n100); cursor: default; }
+.icon-btn.plain { border-color: transparent; background: none; }
+.icon-btn.plain:hover:not(:disabled) { background: var(--cq-n50); border-color: transparent; color: var(--cq-accent-hover); }
+
+/* ── Fields: every input, select and textarea gets this ──────────────── */
+:where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]), select, textarea) {
+  font: inherit; font-size: 13px; color: var(--cq-ink); background: var(--cq-white);
+  border: 1px solid var(--cq-n200); padding: 0 10px; height: 34px; width: 100%; min-width: 0;
+}
+:where(textarea) { height: auto; padding: 7px 10px; resize: vertical; }
+:where(select[multiple]) { height: auto; padding: 4px; }
+:where(input[readonly]) { background: var(--cq-n50); color: var(--cq-n500); }
+:where(input, select, textarea):disabled { background: var(--cq-n50); color: var(--cq-n400); }
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.field > .micro { line-height: 1.35; }
+.field .with-unit { display: flex; align-items: center; gap: 8px; }
+.field .unit { color: var(--cq-n500); font-size: 12px; white-space: nowrap; }
+.check { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; cursor: pointer; font-size: 13px; }
+.check input { width: 16px; height: 16px; margin: 0; flex: none; }
+
+/* ── Cards: white, a hairline, no shadow ─────────────────────────────── */
+.card { background: var(--cq-white); border: 1px solid var(--cq-n100); min-width: 0; }
+.card-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px 18px 0; }
+.card-head .card-icon { color: var(--cq-accent); flex: none; }
+.card-body { padding: 12px 18px 16px; }
+.card-foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 18px; border-top: 1px solid var(--cq-n100); }
+.count { font-family: var(--cq-mono); font-size: 11px; font-weight: 500; min-width: 20px; height: 18px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; background: var(--cq-n100); color: var(--cq-ink); }
+.count.on { background: var(--cq-ink); color: var(--cq-white); }
+
+/* ── Tables ───────────────────────────────────────────────────────────── */
+table.cq { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.cq th {
+  text-align: left; height: 40px; padding: 0 10px; white-space: nowrap; border-bottom: 1px solid var(--cq-n200);
+  font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cq-n500);
+}
+table.cq td { height: 48px; padding: 0 10px; border-bottom: 1px solid var(--cq-n100); white-space: nowrap; }
+table.cq th:first-child, table.cq td:first-child { padding-left: 18px; }
+table.cq .num { text-align: right; }
+table.cq tr.click { cursor: pointer; }
+table.cq tr.click:hover td { background: var(--cq-n50); }
+table.cq tr.on td { background: var(--cq-selected); }
+table.cq tr.on td:first-child { box-shadow: inset 3px 0 0 var(--cq-accent); }
+.two { line-height: 1.3; }
+.two small { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cq-n400); }
+.table-wrap { overflow-x: auto; }
+
+/* ── Status chips: outlined, tracked caps ────────────────────────────── */
+.chip {
+  display: inline-flex; align-items: center; gap: 4px; height: 20px; padding: 0 7px; white-space: nowrap;
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+  background: var(--cq-white); border: 1px solid currentColor; color: var(--cq-n500);
+}
+.chip.ok { color: var(--cq-good-ink); }
+.chip.run { color: var(--cq-ink); }
+.chip.bad { color: var(--cq-white); background: var(--cq-accent-hover); border-color: var(--cq-accent-hover); }
+.chip.warn { color: var(--cq-accent-hover); }
+.chip.grey { color: var(--cq-n400); }
+
+/* ── Banners: a bar on the left, a tint behind ──────────────────────── */
+.banner { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; font-size: 13px; line-height: 1.45; border-left: 3px solid currentColor; }
+.banner > svg { flex: none; margin-top: 1px; }
+.banner.warn { background: var(--cq-warn-tint); color: var(--cq-warn-ink); border-left-color: var(--cq-accent-hover); }
+.banner.bad { background: var(--cq-warn-tint); color: var(--cq-warn-ink); border-left-color: var(--cq-danger); }
+.banner.info { background: var(--cq-n50); color: var(--cq-ink); border-left-color: var(--cq-ink); }
+
+/* ── Progress ─────────────────────────────────────────────────────────── */
+.spinner { width: 16px; height: 16px; flex: none; border: 2px solid var(--cq-n200); border-top-color: var(--cq-accent); border-radius: 50%; animation: cq-spin 0.8s linear infinite; }
+.spinner.on-ink { border-color: var(--cq-n500); border-top-color: var(--cq-white); }
+@keyframes cq-spin { to { transform: rotate(360deg); } }
+.progress { position: relative; display: inline-block; width: 90px; height: 4px; overflow: hidden; background: var(--cq-n100); vertical-align: middle; }
+.progress > i { position: absolute; top: 0; bottom: 0; left: 0; background: var(--cq-ink); transition: width 0.4s; }
+.progress.busy > i { width: 40%; animation: cq-run 1.6s ease-in-out infinite; }
+.progress.line { display: block; width: 100%; height: 2px; }
+.progress.line > i { background: var(--cq-accent); }
+@keyframes cq-run { from { left: -40%; } to { left: 100%; } }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cq-accent); display: inline-block; flex: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner, .progress.busy > i { animation-duration: 3s; }
+}
+
+/* ── Dialogs (ModalDialog.vue) ────────────────────────────────────────── */
+dialog.cq-dialog {
+  padding: 0; border: 1px solid var(--cq-n200); background: var(--cq-white); color: var(--cq-ink);
+  box-shadow: var(--cq-float-shadow); max-height: calc(100dvh - 32px); max-width: calc(100vw - 32px);
+  overscroll-behavior: contain; font-size: 13px;
+}
+/* The backdrop traps scroll gestures too, so the page under a modal does not move. */
+dialog.cq-dialog::backdrop { background: var(--cq-scrim); overflow: hidden; overscroll-behavior: contain; }
+dialog.cq-dialog > .dlg { display: flex; flex-direction: column; max-height: inherit; min-height: 0; }
+dialog.cq-dialog.side { margin: 0 0 0 auto; height: 100dvh; max-height: 100dvh; border-width: 0 0 0 1px; }
+dialog.cq-dialog.side > .dlg { height: 100%; }
+dialog.cq-dialog.sheet { margin: auto 0 0; width: 100vw; max-width: 100vw; max-height: 88dvh; border-width: 1px 0 0; }
+dialog.cq-dialog.full { margin: 0; width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; border: 0; box-shadow: none; }
+dialog.cq-dialog.full > .dlg { height: 100%; }
+.dlg-head { flex: none; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 8px 8px 8px 18px; border-bottom: 1px solid var(--cq-n100); }
+.dlg-head .ttl { flex: 1; min-width: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dlg-body { flex: 1; min-height: 0; overflow: auto; padding: 16px 18px; }
+.dlg-foot { flex: none; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 10px 18px; border-top: 1px solid var(--cq-n100); }
+.sheet .grab { width: 36px; height: 4px; background: var(--cq-n200); margin: 8px auto 0; flex: none; }
+
+/* ── The toast (ToastMessage.vue) ────────────────────────────────────── */
+.cq-toast {
+  position: fixed; z-index: 90; left: 50%; bottom: 20px; transform: translateX(-50%); width: max-content; max-width: min(560px, calc(100vw - 24px));
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 8px 10px 14px; background: var(--cq-ink); color: var(--cq-white);
+  box-shadow: var(--cq-float-shadow); font-size: 13px; line-height: 1.45; border-left: 3px solid var(--cq-ink);
+}
+.cq-toast.bad { border-left-color: var(--cq-accent-hover); }
+.cq-toast .icon-btn.plain { width: 24px; height: 24px; color: var(--cq-white); }
+.cq-toast .icon-btn.plain:hover { background: var(--cq-n600); color: var(--cq-white); }
+
+/* ── Phone: rows a finger can hit ───────────────────────────────────── */
+@media (max-width: 599px) {
+  .btn { height: 44px; padding: 0 16px; }
+  .icon-btn { width: 44px; height: 44px; }
+  :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]), select) { height: 44px; font-size: 16px; }
+  .check { min-height: 44px; }
+  .cq-toast { bottom: 12px; }
+}

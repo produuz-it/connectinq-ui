@@ -1,0 +1,43 @@
+/* ConnectinQ design tokens: the colours, fonts and shadow every ConnectinQ front draws with.
+   Brand black #231F20 on white, accent orange #F5841F with vermilion #F26322, the cool ramp
+   magenta, violet, indigo and navy, and the neutral ramp n50 … n700. On the cool colours text
+   is white; on the two oranges it is #231F20.
+
+   This is the only file with colour literals. A component or a stylesheet that needs a new
+   colour adds a token here. */
+
+:root {
+  --cq-ink: #231f20;
+  --cq-accent: #f5841f;
+  --cq-accent-hover: #f26322;
+  --cq-purple: #8a2788;
+  --cq-purple-dark: #5d2b85;
+  --cq-indigo: #301b5a;
+  --cq-navy: #152559;
+  --cq-n50: #f4f4f3;
+  --cq-n100: #e6e5e4;
+  --cq-n200: #cdcbc9;
+  --cq-n300: #a8a5a2;
+  --cq-n400: #7d7a76;
+  --cq-n500: #565350;
+  --cq-n600: #3a3836;
+  --cq-n700: #262423;
+  --cq-white: #ffffff;
+  /* The selected row or entry, and the current tool in the switcher. */
+  --cq-selected: #fff3e6;
+  --cq-current: rgba(234, 89, 12, 0.12);
+  /* A warning: its tint and its text. */
+  --cq-warn-tint: #fdeee6;
+  --cq-warn-ink: #8a3407;
+  --cq-good-ink: #1e4d30;
+  --cq-good-tint: #dcf0e1;
+  --cq-danger: #b42318;
+  /* The TEST tag of a build that does not talk to production. */
+  --cq-test-tag: #8d1e7d;
+  --cq-scrim: rgba(26, 25, 24, 0.35);
+  --cq-hover: rgba(26, 25, 24, 0.04);
+  /* Floating panels (menus, dialogs, toasts) are the one place a shadow is allowed. */
+  --cq-float-shadow: 0 6px 24px rgba(35, 31, 32, 0.14);
+  --cq-font: "Raleway", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --cq-mono: "Roboto Mono", ui-monospace, monospace;
+}
