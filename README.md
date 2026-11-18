@@ -15,6 +15,10 @@ on floating panels.
 | `connectinq-ui/SideMenu.vue` | The menu: the mark and the name, sections and their screens (groups that open and close), a rail when folded, links and the account at the foot. |
 | `connectinq-ui/AccountMenu.vue` | The user area: avatar, name, badge; a panel with who is signed in, the front's blocks, the language and the sign-out. |
 | `connectinq-ui/frame` | The frame's types (`FrameSection`, `FrameEntry`, `FrameTab`, `FrameBrand`), `useFolded(key)` and `useFrame()`. |
+| `connectinq-ui/tour` | A guided tutorial: `createTourEngine` (which tour runs, its steps, going to a step's page, what is remembered), the memory and the geometry of a step. The front gives its tours, its pages and how to reach them. |
+| `connectinq-ui/tour/TourLayer.vue` | The tutorial on the screen: the page dimmed, the step's element (`data-tour`) lit, a card beside it, keyboard, a drawing when the element is missing (`art` slot). |
+| `connectinq-ui/tour/TourOffer.vue` | The first-visit offer, asked once. |
+| `connectinq-ui/tour/TourList.vue` | The tours, one row each, with *Start* or *Again*. |
 | `connectinq-ui/ModalDialog.vue` | A modal on the native `<dialog>`: centred, side drawer, bottom sheet or full screen. |
 | `connectinq-ui/PopButton.vue` | A button that opens a floating panel (menus, switchers); a sheet on a phone. |
 | `connectinq-ui/AppSwitcher.vue` | The application switcher. The front passes the entries and the texts (`connectinq-ui/switcher`). |

@@ -14,5 +14,5 @@
     "noEmit": true,
     "types": []
   },
-  "include": ["src/**/*.ts", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.vue", "tests/**/*.ts", "vitest.config.ts"]
 }

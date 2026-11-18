@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0
+
+- The guided tutorial of a ConnectinQ front, made general: `createTourEngine`
+  (`connectinq-ui/tour`), `TourLayer`, `TourOffer` and `TourList` (`connectinq-ui/tour/*.vue`).
+  A front gives its tours as data (steps that point at `data-tour` elements), which of its routes
+  are tour pages, how to reach a step's page, and its words; the engine remembers the offer and
+  each tour's outcome in localStorage under the front's key.
+- Tokens `--cq-tour-dim`, `--cq-art-bg`, `--cq-art-ink`.
+- Tests: `npm test` (Vitest) for the engine, the memory and the geometry.
+
 ## 0.2.1
 
 - PopButton on a phone with `side: 'above'` opens its sheet above the button: the account panel

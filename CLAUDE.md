@@ -52,6 +52,7 @@ the old patterns in an agent's training data.
 ```bash
 npm install
 npm run check   # vue-tsc over every .ts and .vue file
+npm test        # Vitest: the tutorial engine, memory and geometry (run it from PowerShell on Windows)
 ```
 
 Then, in a front that uses it, run `npm update connectinq-ui` on its `test` branch and look at

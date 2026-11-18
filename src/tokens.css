@@ -35,6 +35,10 @@
   /* The TEST tag of a build that does not talk to production. */
   --cq-test-tag: #8d1e7d;
   --cq-scrim: rgba(26, 25, 24, 0.35);
+  /* A guided tutorial: the page dimmed around the lit element, and the drawings of its steps. */
+  --cq-tour-dim: rgba(26, 25, 24, 0.5);
+  --cq-art-bg: #f4f2ee;
+  --cq-art-ink: #565350;
   --cq-hover: rgba(26, 25, 24, 0.04);
   /* Floating panels (menus, dialogs, toasts) are the one place a shadow is allowed. */
   --cq-float-shadow: 0 6px 24px rgba(35, 31, 32, 0.14);
