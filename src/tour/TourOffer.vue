@@ -7,10 +7,11 @@
 import { computed } from 'vue'
 import { LucideRoute } from '@lucide/vue'
 import { useIsPhone } from '../display'
-import type { TourEngine } from './engine'
+import type { TourMemory } from './memory'
 
 const props = defineProps<{
-  engine: TourEngine
+  /** Any front's engine: only what the offer reads (it does not depend on the front's steps). */
+  engine: { state: { id: string | null }; memory: TourMemory; answerOffer: (take: boolean) => Promise<void> }
   enabled: boolean
   labels: { title: string; text: string; yes: string; no: string }
 }>()
