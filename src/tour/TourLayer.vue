@@ -29,7 +29,8 @@ export interface TourLabels {
   tryIt: string
   tryItPhone: string
   noTarget: string
-  readMore: string
+  /** Needed only with `helpHref`. */
+  readMore?: string
   nextTour: (title: string) => string
   allTutorials: string
 }
