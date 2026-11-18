@@ -58,7 +58,8 @@ const shown = computed(() => props.entries.some((entry) => entry.href))
 .app.here:hover { background: none; }
 .tile { width: 36px; height: 36px; flex: none; display: flex; align-items: center; justify-content: center; }
 .tile.small { width: 28px; height: 28px; }
-.tile.logo { background: var(--cq-white); }
+/* A mark draws on what is under it: the tinted current tool, a hovered row. */
+.tile.logo { background: none; }
 .tile.logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .text { flex: 1; min-width: 0; line-height: 1.3; }
 .text b { display: block; font-size: 14px; font-weight: 500; }
