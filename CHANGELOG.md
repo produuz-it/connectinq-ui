@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.1
+
+- `CompanySwitch.vue`: the company the account works in, under the application's name in the side
+  menu. Staff open it to change company (a searchable list, the current one checked, a STAFF chip);
+  anyone else sees the name. The front loads the list on `open` and moves on `pick`. New token
+  `--cq-staff` for the STAFF chip.
+
 ## 0.4.0
 
 - `connectinq-ui/platform`: the products of the platform as the switcher draws them, in the

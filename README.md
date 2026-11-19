@@ -21,6 +21,7 @@ on floating panels.
 | `connectinq-ui/tour/TourList.vue` | The tours, one row each, with *Start* or *Again*. |
 | `connectinq-ui/ModalDialog.vue` | A modal on the native `<dialog>`: centred, side drawer, bottom sheet or full screen. |
 | `connectinq-ui/PopButton.vue` | A button that opens a floating panel (menus, switchers); a sheet on a phone. |
+| `connectinq-ui/CompanySwitch.vue` | The company the account works in, in the side menu; staff change it from a searchable list. |
 | `connectinq-ui/AppSwitcher.vue` | The application switcher. The front passes the entries and the texts (`connectinq-ui/switcher`). |
 | `connectinq-ui/platform` | The platform's products as the switcher draws them (`PLATFORM`, in the menu's order) and their marks (`MARKS`). The front still decides which entries an account sees, and where each one lives. |
 | `connectinq-ui/ToastMessage.vue` | One short message at the bottom of the screen. |

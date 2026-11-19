@@ -32,6 +32,8 @@
   --cq-good-ink: #1e4d30;
   --cq-good-tint: #dcf0e1;
   --cq-danger: #b42318;
+  /* The STAFF chip on what only staff see (the company switch). */
+  --cq-staff: #c90202;
   /* The TEST tag of a build that does not talk to production. */
   --cq-test-tag: #8d1e7d;
   --cq-scrim: rgba(26, 25, 24, 0.35);
