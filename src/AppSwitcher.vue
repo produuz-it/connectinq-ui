@@ -27,7 +27,7 @@ const shown = computed(() => props.entries.some((entry) => entry.href))
       <component :is="app.href ? 'a' : 'div'" v-for="app in apps" :key="app.key" class="pop-row app" :class="{ here: !app.href }" :href="app.href || undefined">
         <span class="tile" :class="{ logo: app.logo }" :style="app.logo ? undefined : { background: app.tile }">
           <img v-if="app.logo" :src="app.logo" alt="" />
-          <svg v-else viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><path :d="app.glyph" :fill="app.ink" /></svg>
+          <svg v-else viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><path :d="app.glyph" :style="{ fill: app.ink }" /></svg>
         </span>
         <span class="text"><b>{{ app.name }}</b><small>{{ app.what }}</small></span>
         <svg v-if="!app.href" class="check" viewBox="0 0 24 24" width="20" height="20" role="img" :aria-label="labels.current"><path :d="GLYPH_CHECK" fill="currentColor" /></svg>
@@ -40,7 +40,7 @@ const shown = computed(() => props.entries.some((entry) => entry.href))
                    :href="tool.href || undefined" :title="tool.what" :aria-label="tool.what">
           <span class="tile small" :class="{ logo: tool.logo }" :style="tool.logo ? undefined : { background: tool.tile }">
             <img v-if="tool.logo" :src="tool.logo" alt="" />
-            <svg v-else viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path :d="tool.glyph" :fill="tool.ink" /></svg>
+            <svg v-else viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path :d="tool.glyph" :style="{ fill: tool.ink }" /></svg>
           </span>
           <span class="name">{{ tool.name }}</span>
           <svg v-if="!tool.href" class="mark" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path :d="GLYPH_CHECK_CIRCLE" fill="currentColor" /></svg>

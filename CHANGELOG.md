@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0
+
+- `connectinq-ui/platform`: the products of the platform as the switcher draws them, in the
+  menu's order (`PLATFORM`, `PLATFORM_ORDER`, `isPlatformKey`), and their marks as image URLs
+  (`MARKS`: produuz.it, ConnectinQ, Saw Splitter, MOB Generator, QR reader), so every front
+  draws the same switcher from one copy. The QR reader is a mark now, a plain QR in the
+  produuz.it orange, and the supplier portal's tile uses the tokens.
+- AppSwitcher: a logo is drawn with nothing behind it, so it sits on a dark theme and the tinted
+  cell of the current tool shows through it; a glyph's `ink` may be a `var(--cq-*)` token.
+
 ## 0.3.0
 
 - The guided tutorial of a ConnectinQ front, made general: `createTourEngine`

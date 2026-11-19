@@ -13,9 +13,9 @@ export interface SwitcherEntry {
   name: string
   /** One line under the name of an application, and the tooltip of a tool. */
   what: string
-  /** A logo (an image URL), drawn on white. When there is none, `glyph` on `tile`. */
+  /** A logo (an image URL), drawn as it is, with nothing behind it. When there is none, `glyph` on `tile`. */
   logo?: string
-  /** A 24 x 24 SVG path, drawn in `ink` on a `tile` square. */
+  /** A 24 x 24 SVG path, drawn in `ink` on a `tile` square (colours or `var(--cq-*)` tokens). */
   glyph?: string
   tile?: string
   ink?: string
