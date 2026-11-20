@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0
+
+- The help of a front, made general: `HelpPanel` and `HelpButton` (`connectinq-ui/help/*.vue`)
+  and `connectinq-ui/help` (the book's types, `helpHtml`, `useHelpNews`, `collectContext`,
+  `safePath`). The front gives its book (chapters, sections and blocks of text, steps, lists,
+  tips, notes and pictures), the chapter of the screen the person is on and its words; the panel
+  opens on that chapter, has a *Tutorials* tab when the front fills the `tutorials` slot, and a
+  *Report* tab when the front passes `send`: an issue or a suggestion, with the page, the
+  browser, the screen and what the front adds, all shown before it is sent. Where the report
+  goes is the front's: the panel calls `send` and says whether it worked.
+
 ## 0.4.1
 
 - `CompanySwitch.vue`: the company the account works in, under the application's name in the side

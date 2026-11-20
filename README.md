@@ -19,6 +19,9 @@ on floating panels.
 | `connectinq-ui/tour/TourLayer.vue` | The tutorial on the screen: the page dimmed, the step's element (`data-tour`) lit, a card beside it, keyboard, a drawing when the element is missing (`art` slot). |
 | `connectinq-ui/tour/TourOffer.vue` | The first-visit offer, asked once. |
 | `connectinq-ui/tour/TourList.vue` | The tours, one row each, with *Start* or *Again*. |
+| `connectinq-ui/help` | The help of a front: the book's types (chapters, sections, blocks), `helpHtml`, `useHelpNews` (the dot until the newest entry is read), `collectContext` and `safePath` (what a report carries). |
+| `connectinq-ui/help/HelpPanel.vue` | The help in a drawer: the book opened on the screen's chapter, a *Tutorials* tab (`tutorials` slot) and a *Report* tab for an issue or a suggestion when the front passes `send`. |
+| `connectinq-ui/help/HelpButton.vue` | The `?` that opens it, with a dot while something new is unread. |
 | `connectinq-ui/ModalDialog.vue` | A modal on the native `<dialog>`: centred, side drawer, bottom sheet or full screen. |
 | `connectinq-ui/PopButton.vue` | A button that opens a floating panel (menus, switchers); a sheet on a phone. |
 | `connectinq-ui/CompanySwitch.vue` | The company the account works in, in the side menu; staff change it from a searchable list. |
