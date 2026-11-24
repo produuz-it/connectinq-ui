@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1
+
+- `HelpPanel`: the report form opens from a button at the top of the panel, beside Close, in the
+  accent colour with an icon, instead of the last tab of the chapters. Its text is still the
+  front's `labels.report`.
+
 ## 0.5.0
 
 - The help of a front, made general: `HelpPanel` and `HelpButton` (`connectinq-ui/help/*.vue`)

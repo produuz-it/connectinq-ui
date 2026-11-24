@@ -3,7 +3,8 @@
  * The help of a front, in a drawer on the right (full screen on a phone): the chapters of its
  * book, opened on the one of the screen the person is on, the front's tutorials when it has any
  * (`tutorials` slot), and a form to report an issue or a suggestion when the front can send one
- * (`send`).
+ * (`send`). The form opens from a button in the accent colour at the top of the panel, beside
+ * Close, so it is found without reading the chapters.
  *
  * The report goes with what the browser says about where the person is (`collectContext`) and
  * what the front adds (`context`); the form shows it all before it is sent. Where it goes is the
@@ -14,7 +15,7 @@
  * on the backdrop closes it too.
  */
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { LucideX } from '@lucide/vue'
+import { LucideMessageSquarePlus, LucideX } from '@lucide/vue'
 import { useIsPhone } from '../display'
 import { collectContext, helpHtml, type HelpBook, type ReportContext, type ReportDraft, type ReportKind } from './index'
 
@@ -138,6 +139,11 @@ function another() {
           <div class="hp-kicker">{{ labels.title }}</div>
           <h2 class="hp-title">{{ current ? current.title : view === 'tutorials' ? labels.tutorials : labels.report }}</h2>
         </div>
+        <button v-if="send" type="button" class="hp-new" :class="{ on: view === 'report' }"
+                :aria-current="view === 'report' ? 'page' : undefined" @click="view = 'report'">
+          <LucideMessageSquarePlus :size="16" aria-hidden="true" />
+          <span>{{ labels.report }}</span>
+        </button>
         <button type="button" class="hp-icon" :title="labels.close" :aria-label="labels.close" @click="open = false">
           <LucideX :size="18" />
         </button>
@@ -150,9 +156,6 @@ function another() {
         </button>
         <button v-if="$slots.tutorials" type="button" :class="{ on: view === 'tutorials' }" @click="view = 'tutorials'">
           {{ labels.tutorials }}
-        </button>
-        <button v-if="send" type="button" class="hp-report-tab" :class="{ on: view === 'report' }" @click="view = 'report'">
-          {{ labels.report }}
         </button>
       </nav>
 
@@ -252,6 +255,16 @@ function another() {
 }
 .hp-icon:hover { background: var(--cq-n50); }
 .phone .hp-icon { width: 44px; height: 44px; }
+.hp-new {
+  flex: none; display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px;
+  border: 1px solid var(--cq-accent); background: var(--cq-accent); color: var(--cq-ink); cursor: pointer;
+  font: inherit; font-size: 12px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+  transition: background 0.15s, border-color 0.15s;
+}
+.hp-new:hover { background: var(--cq-accent-hover); border-color: var(--cq-accent-hover); }
+.hp-new.on { background: var(--cq-ink); border-color: var(--cq-ink); color: var(--cq-white); }
+.hp-new:focus-visible { outline: 2px solid var(--cq-ink); outline-offset: 2px; }
+.phone .hp-new { height: 44px; padding: 0 12px; }
 
 .hp-tabs { flex: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 0 18px 12px; border-bottom: 1px solid var(--cq-n100); }
 .hp-tabs button {
@@ -261,7 +274,6 @@ function another() {
 .phone .hp-tabs button { height: 40px; }
 .hp-tabs button:hover { border-color: var(--cq-ink); }
 .hp-tabs button.on { background: var(--cq-ink); border-color: var(--cq-ink); color: var(--cq-white); }
-.hp-tabs .hp-report-tab { margin-left: auto; }
 
 .hp-body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 18px 24px; }
 .hp-toc { margin: 0 0 16px; padding-left: 18px; }
