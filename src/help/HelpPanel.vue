@@ -4,7 +4,8 @@
  * book, opened on the one of the screen the person is on, the front's tutorials when it has any
  * (`tutorials` slot), and a form to report an issue or a suggestion when the front can send one
  * (`send`). The form opens from a button in the accent colour at the top of the panel, beside
- * Close, so it is found without reading the chapters.
+ * Close, so it is found without reading the chapters. That button reads NEW ISSUE in every front
+ * and every language (`NEW_ISSUE`): it is the same action everywhere, so it has one name.
  *
  * The report goes with what the browser says about where the person is (`collectContext`) and
  * what the front adds (`context`); the form shows it all before it is sent. Where it goes is the
@@ -24,7 +25,8 @@ export interface HelpLabels {
   close: string
   contents: string
   tutorials: string
-  report: string
+  /** Not used: the form is NEW ISSUE everywhere. Kept so older fronts still type-check. */
+  report?: string
   reportIntro: string
   issue: string
   suggestion: string
@@ -52,6 +54,9 @@ const props = withDefaults(defineProps<{
   /** What the front adds to a report: its name, version, the screen, the language. */
   context?: () => ReportContext
 }>(), { chapter: undefined, newsChapter: undefined, imageUrl: undefined, send: undefined, context: undefined })
+
+/** The name of the report form, the same in every front and language. */
+const NEW_ISSUE = 'New issue'
 
 const emit = defineEmits<{ 'news-seen': [] }>()
 const open = defineModel<boolean>({ default: false })
@@ -137,12 +142,12 @@ function another() {
       <header class="hp-head">
         <div class="hp-titles">
           <div class="hp-kicker">{{ labels.title }}</div>
-          <h2 class="hp-title">{{ current ? current.title : view === 'tutorials' ? labels.tutorials : labels.report }}</h2>
+          <h2 class="hp-title">{{ current ? current.title : view === 'tutorials' ? labels.tutorials : NEW_ISSUE }}</h2>
         </div>
         <button v-if="send" type="button" class="hp-new" :class="{ on: view === 'report' }"
                 :aria-current="view === 'report' ? 'page' : undefined" @click="view = 'report'">
           <LucideMessageSquarePlus :size="16" aria-hidden="true" />
-          <span>{{ labels.report }}</span>
+          <span>{{ NEW_ISSUE }}</span>
         </button>
         <button type="button" class="hp-icon" :title="labels.close" :aria-label="labels.close" @click="open = false">
           <LucideX :size="18" />

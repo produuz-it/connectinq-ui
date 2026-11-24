@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.2
+
+- `HelpPanel`: the report form is called NEW ISSUE in every front and language, on its button and
+  as its title. `labels.report` is no longer read and is optional.
+
 ## 0.5.1
 
 - `HelpPanel`: the report form opens from a button at the top of the panel, beside Close, in the
