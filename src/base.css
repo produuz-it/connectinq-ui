@@ -5,7 +5,7 @@
 
 * { box-sizing: border-box; }
 html {
-  color-scheme: light;
+  color-scheme: light;  /* dark under data-cq-theme="dark" (tokens.css) */
   font-family: var(--cq-font);
   /* Raleway draws old-style figures by default: "0u" reads as "ou". */
   font-variant-numeric: lining-nums tabular-nums;
@@ -48,13 +48,13 @@ h4 { margin: 0; font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-t
 .btn:disabled { color: var(--cq-n300); border-color: var(--cq-n100); cursor: default; }
 /* Primary: ink, uppercase tracked; orange on hover, violet when pressed. */
 .btn.primary { background: var(--cq-ink); border-color: var(--cq-ink); color: var(--cq-white); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-.btn.primary:hover:not(:disabled) { background: var(--cq-accent); border-color: var(--cq-accent); color: var(--cq-ink); }
-.btn.primary:active:not(:disabled) { background: var(--cq-purple-dark); border-color: var(--cq-purple-dark); color: var(--cq-white); }
+.btn.primary:hover:not(:disabled) { background: var(--cq-accent); border-color: var(--cq-accent); color: var(--cq-on-accent); }
+.btn.primary:active:not(:disabled) { background: var(--cq-purple-dark); border-color: var(--cq-purple-dark); color: var(--cq-on-strong); }
 .btn.primary:disabled { background: var(--cq-ink); border-color: var(--cq-ink); color: var(--cq-white); opacity: 0.45; }
 .btn.danger { color: var(--cq-danger); border-color: var(--cq-danger); }
-.btn.danger:hover:not(:disabled) { background: var(--cq-danger); color: var(--cq-white); }
-.btn.primary.danger { background: var(--cq-danger); border-color: var(--cq-danger); color: var(--cq-white); }
-.btn.primary.danger:hover:not(:disabled) { background: var(--cq-accent-hover); border-color: var(--cq-accent-hover); color: var(--cq-ink); }
+.btn.danger:hover:not(:disabled) { background: var(--cq-danger); color: var(--cq-on-strong); }
+.btn.primary.danger { background: var(--cq-danger); border-color: var(--cq-danger); color: var(--cq-on-strong); }
+.btn.primary.danger:hover:not(:disabled) { background: var(--cq-accent-hover); border-color: var(--cq-accent-hover); color: var(--cq-on-accent); }
 /* Text: no border, for the quiet action beside a primary one. */
 .btn.text { border-color: transparent; background: none; }
 .btn.text:hover:not(:disabled) { background: var(--cq-n50); border-color: transparent; }
@@ -121,7 +121,7 @@ table.cq tr.on td:first-child { box-shadow: inset 3px 0 0 var(--cq-accent); }
 }
 .chip.ok { color: var(--cq-good-ink); }
 .chip.run { color: var(--cq-ink); }
-.chip.bad { color: var(--cq-white); background: var(--cq-accent-hover); border-color: var(--cq-accent-hover); }
+.chip.bad { color: var(--cq-on-strong); background: var(--cq-accent-hover); border-color: var(--cq-accent-hover); }
 .chip.warn { color: var(--cq-accent-hover); }
 .chip.grey { color: var(--cq-n400); }
 

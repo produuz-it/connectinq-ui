@@ -47,6 +47,6 @@ p { margin: 6px 0 0; }
 }
 .o-btn:hover { background: var(--cq-n50); }
 .o-btn.primary { background: var(--cq-ink); border-color: var(--cq-ink); color: var(--cq-white); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-.o-btn.primary:hover { background: var(--cq-accent); border-color: var(--cq-accent); color: var(--cq-ink); }
+.o-btn.primary:hover { background: var(--cq-accent); border-color: var(--cq-accent); color: var(--cq-on-accent); }
 .phone .o-btn { height: 44px; }
 </style>

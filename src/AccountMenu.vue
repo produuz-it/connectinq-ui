@@ -2,12 +2,13 @@
 /**
  * The user area at the foot of the menu: the avatar and the name (with an optional badge, such as
  * a level), and a panel with who is signed in, the front's own blocks (default slot), the
- * language, and the sign-out. In the rail only the avatar shows. The front passes the texts and
- * reacts to `language` and `sign-out`; what signing out does is the front's. On a phone (`phone`)
+ * language, the theme (when the front passes `themes`), and the sign-out. In the rail only the
+ * avatar shows. The front passes the texts and reacts to `language`, `theme` and `sign-out`; where
+ * a choice is kept and what signing out does are the front's. On a phone (`phone`)
  * the panel is a full-width sheet above the button, which sits at the foot of the drawer.
  */
 import { computed } from 'vue'
-import { LucideCheck, LucideLogOut } from '@lucide/vue'
+import { LucideCheck, LucideLogOut, LucideMoon, LucideSun, LucideSunMoon } from '@lucide/vue'
 import PopButton from './PopButton.vue'
 
 const props = defineProps<{
@@ -20,7 +21,10 @@ const props = defineProps<{
   badge?: { label: string; tone?: 'warn' }
   languages: { value: string; label: string }[]
   language: string
-  labels: { title: string; language: string; signOut: string; signOutHint?: string; languageNote?: string }
+  labels: { title: string; language: string; signOut: string; signOutHint?: string; languageNote?: string; theme?: string }
+  /** The theme choices, `light`, `dark` and `auto`, with the front's words; without them there is no theme row. */
+  themes?: { value: 'light' | 'dark' | 'auto'; label: string }[]
+  theme?: string
   /** A failure to show under the languages, in the front's words. */
   error?: string
   /** Signing out has started: the button stops answering. */
@@ -28,7 +32,9 @@ const props = defineProps<{
   rail?: boolean
   phone?: boolean
 }>()
-const emit = defineEmits<{ language: [value: string]; 'sign-out': []; open: [] }>()
+const emit = defineEmits<{ language: [value: string]; theme: [value: 'light' | 'dark' | 'auto']; 'sign-out': []; open: [] }>()
+
+const THEME_ICONS = { light: LucideSun, dark: LucideMoon, auto: LucideSunMoon }
 
 const initials = computed(() => {
   if (props.initials) return props.initials
@@ -65,6 +71,15 @@ const initials = computed(() => {
       <p v-if="labels.languageNote" class="text">{{ labels.languageNote }}</p>
       <p v-if="error" class="pop-error">{{ error }}</p>
     </div>
+    <div v-if="themes?.length" class="block">
+      <div class="pop-head">{{ labels.theme }}</div>
+      <div class="themes" role="radiogroup" :aria-label="labels.theme">
+        <button v-for="option in themes" :key="option.value" type="button" role="radio" class="theme" :class="{ on: theme === option.value }"
+                :aria-checked="theme === option.value" @click="emit('theme', option.value)">
+          <component :is="THEME_ICONS[option.value]" :size="15" aria-hidden="true" /> <span>{{ option.label }}</span>
+        </button>
+      </div>
+    </div>
     <div class="block">
       <button type="button" class="pop-row" :disabled="leaving" @click="emit('sign-out')">
         <LucideLogOut :size="16" /> <span class="grow">{{ labels.signOut }}</span>
@@ -81,7 +96,7 @@ const initials = computed(() => {
 .cq-account:hover, .cq-account.on { background: var(--cq-n50); }
 .cq-account.rail { width: 40px; height: 40px; padding: 0; justify-content: center; }
 .cq-avatar {
-  width: 26px; height: 26px; flex: none; background: var(--cq-indigo); color: var(--cq-white); font-size: 10.5px; font-weight: 800;
+  width: 26px; height: 26px; flex: none; background: var(--cq-indigo); color: var(--cq-on-strong); font-size: 10.5px; font-weight: 800;
   display: flex; align-items: center; justify-content: center;
 }
 .cq-who { flex: 1; min-width: 0; font-size: 13px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -98,4 +113,14 @@ const initials = computed(() => {
 .who-card small { display: block; font-size: 12px; color: var(--cq-n500); overflow-wrap: anywhere; }
 .block { border-top: 1px solid var(--cq-n100); padding-bottom: 6px; }
 .text { margin: 0; padding: 0 14px 4px; font-size: 11.5px; line-height: 1.45; color: var(--cq-n500); }
+.themes { display: flex; margin: 0 14px 6px; border: 1px solid var(--cq-n200); }
+.theme {
+  flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 32px; padding: 0 6px;
+  border: 0; border-right: 1px solid var(--cq-n200); background: var(--cq-white); color: var(--cq-ink); cursor: pointer;
+  font: inherit; font-size: 12px; font-weight: 700;
+}
+.theme:last-child { border-right: 0; }
+.theme:hover { background: var(--cq-n50); }
+.theme.on { background: var(--cq-ink); color: var(--cq-white); }
+@media (max-width: 599px) { .theme { min-height: 44px; } }
 </style>

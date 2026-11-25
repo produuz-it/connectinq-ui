@@ -173,7 +173,7 @@ const isCurrent = (section: FrameSection) => !!section.current || (!isGroup(sect
   flex: none; min-width: 20px; height: 18px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center;
   font-family: var(--cq-mono); font-size: 11px; font-weight: 500; background: var(--cq-n100); color: var(--cq-ink);
 }
-.cq-count.bad { background: var(--cq-accent-hover); color: var(--cq-white); }
+.cq-count.bad { background: var(--cq-accent-hover); color: var(--cq-on-strong); }
 /* A company slot that draws nothing in the rail leaves no empty row. */
 .rail .company-row:empty { display: none; }
 

@@ -1,7 +1,8 @@
 /**
  * The help of a front: a book of chapters the front writes as data, what is new since the
- * person last looked, and what a report of an issue or a suggestion carries with it. The panel
- * is connectinq-ui/help/HelpPanel.vue and the button connectinq-ui/help/HelpButton.vue.
+ * person last looked, and what a ticket (a problem or a suggestion) carries with it. The one
+ * button for notifications, help and tickets is connectinq-ui/help/SupportButton.vue and its
+ * panel connectinq-ui/help/SupportPanel.vue; HelpPanel and HelpButton are the help alone.
  *
  * The library only draws: the front gives the book, its words and the function that sends a
  * report to wherever it goes.
@@ -25,6 +26,36 @@ export type ReportKind = 'issue' | 'suggestion'
 
 /** What the person writes in the report form. */
 export interface ReportDraft { kind: ReportKind; title: string; description: string }
+
+/** One of the person's own tickets, as the front words it. */
+export interface TicketRow {
+  key: string
+  title: string
+  /** `issue` or `suggestion`, and its word. */
+  kind: ReportKind
+  kindLabel: string
+  /** Its state: `new`, `sent`, `closed` or `resolved`, and its word. */
+  status: string
+  statusLabel: string
+  /** When it was sent, already formatted by the front. */
+  when: string
+  /** What the team answered, when the front has it. */
+  reply?: string
+}
+
+/** One notification, as the front words it. */
+export interface NotificationRow {
+  key: string
+  title: string
+  /** A second line: the project, who, a figure. */
+  facts?: string
+  /** When, already formatted by the front. */
+  when: string
+  level?: 'info' | 'success' | 'warning' | 'error'
+  unread: boolean
+  /** Whether it opens something in this front; a row that opens nothing is not a button. */
+  opens: boolean
+}
 
 /** What goes with a report: where the person was and on what. Read by people, never parsed. */
 export type ReportContext = Record<string, string | number | boolean | null>

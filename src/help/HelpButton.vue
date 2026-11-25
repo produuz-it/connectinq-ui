@@ -9,7 +9,7 @@ defineEmits<{ open: [] }>()
 <template>
   <button type="button" class="cq-help-btn" :title="label" :aria-label="label" @click="$emit('open')">
     <LucideCircleHelp :size="18" />
-    <span v-if="unseen" class="cq-help-dot" aria-hidden="true" />
+    <span v-if="unseen" class="dot cq-help-dot" aria-hidden="true" />
   </button>
 </template>
 

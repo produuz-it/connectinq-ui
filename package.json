@@ -1,6 +1,6 @@
 {
   "name": "connectinq-ui",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "The shared look of the ConnectinQ front-ends: design tokens, base styles, and a few Vue components.",
   "private": true,
   "type": "module",
@@ -16,6 +16,7 @@
     "./glyphs": "./src/glyphs.ts",
     "./switcher": "./src/switcher.ts",
     "./platform": "./src/platform.ts",
+    "./theme": "./src/theme.ts",
     "./*.vue": "./src/*.vue",
     "./tour": "./src/tour/index.ts",
     "./tour/*.vue": "./src/tour/*.vue",

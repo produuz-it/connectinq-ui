@@ -32,10 +32,15 @@
   --cq-good-ink: #1e4d30;
   --cq-good-tint: #dcf0e1;
   --cq-danger: #b42318;
+  /* Text on a strong colour (the cool ramp, the STAFF red, danger, vermilion): white in both themes. */
+  --cq-on-strong: #ffffff;
+  /* Text on the two oranges: brand black in both themes. */
+  --cq-on-accent: #231f20;
   /* The STAFF chip on what only staff see (the company switch). */
   --cq-staff: #c90202;
-  /* The TEST tag of a build that does not talk to production. */
-  --cq-test-tag: #8d1e7d;
+  /* The TEST tag of a build that does not talk to production: black, so no app colour reads as test. */
+  --cq-test-tag: #231f20;
+  --cq-test-tag-ink: #ffffff;
   --cq-scrim: rgba(26, 25, 24, 0.35);
   /* A guided tutorial: the page dimmed around the lit element, and the drawings of its steps. */
   --cq-tour-dim: rgba(26, 25, 24, 0.5);
@@ -46,4 +51,36 @@
   --cq-float-shadow: 0 6px 24px rgba(35, 31, 32, 0.14);
   --cq-font: "Raleway", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --cq-mono: "Roboto Mono", ui-monospace, monospace;
+}
+
+/* The dark theme, set by the front on <html data-cq-theme="dark"> (connectinq-ui/theme). The
+   surface and the ink swap (--cq-white is the page, --cq-ink the text, in both themes), the
+   neutral ramp turns over, and the accent, the cool ramp and the marks stay. */
+:root[data-cq-theme="dark"] {
+  color-scheme: dark;
+  --cq-ink: #ecebe9;
+  --cq-white: #1b1a19;
+  --cq-n50: #242221;
+  --cq-n100: #34312f;
+  --cq-n200: #48443f;
+  --cq-n300: #67625d;
+  --cq-n400: #8f8a85;
+  --cq-n500: #b2ada8;
+  --cq-n600: #d4cfca;
+  --cq-n700: #e6e3e0;
+  --cq-selected: #3a2815;
+  --cq-current: rgba(245, 132, 31, 0.2);
+  --cq-warn-tint: #3b2214;
+  --cq-warn-ink: #f6b78e;
+  --cq-good-ink: #8fd3a4;
+  --cq-good-tint: #1b3123;
+  --cq-danger: #f07167;
+  --cq-test-tag: #ecebe9;
+  --cq-test-tag-ink: #1b1a19;
+  --cq-scrim: rgba(0, 0, 0, 0.55);
+  --cq-tour-dim: rgba(0, 0, 0, 0.6);
+  --cq-art-bg: #2a2826;
+  --cq-art-ink: #b2ada8;
+  --cq-hover: rgba(255, 255, 255, 0.06);
+  --cq-float-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
 }

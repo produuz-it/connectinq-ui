@@ -22,6 +22,9 @@ on floating panels.
 | `connectinq-ui/help` | The help of a front: the book's types (chapters, sections, blocks), `helpHtml`, `useHelpNews` (the dot until the newest entry is read), `collectContext` and `safePath` (what a report carries). |
 | `connectinq-ui/help/HelpPanel.vue` | The help in a drawer: the book opened on the screen's chapter, a *Tutorials* tab (`tutorials` slot) and a *Report* tab for an issue or a suggestion when the front passes `send`. |
 | `connectinq-ui/help/HelpButton.vue` | The `?` that opens it, with a dot while something new is unread. |
+| `connectinq-ui/help/SupportButton.vue` | The one button for notifications, help and tickets: its own glyph (two speech bubbles) and an orange dot while anything is unread. |
+| `connectinq-ui/help/SupportPanel.vue` | Its panel: *Notifications*, *Help* and *New ticket* tabs, opened on Notifications. The front passes the rows, the book and `send`, and reacts to the events. |
+| `connectinq-ui/help/HelpBook.vue`, `TicketForm.vue`, `NotificationList.vue` | The three pieces of the panel, for a front that draws them elsewhere. |
 | `connectinq-ui/ModalDialog.vue` | A modal on the native `<dialog>`: centred, side drawer, bottom sheet or full screen. |
 | `connectinq-ui/PopButton.vue` | A button that opens a floating panel (menus, switchers); a sheet on a phone. |
 | `connectinq-ui/CompanySwitch.vue` | The company the account works in, in the side menu; staff change it from a searchable list. |
@@ -29,6 +32,7 @@ on floating panels.
 | `connectinq-ui/platform` | The platform's products as the switcher draws them (`PLATFORM`, in the menu's order) and their marks (`MARKS`). The front still decides which entries an account sees, and where each one lives. |
 | `connectinq-ui/ToastMessage.vue` | One short message at the bottom of the screen. |
 | `connectinq-ui/TestTag.vue` | The `TEST` tag of a build that does not talk to production. |
+| `connectinq-ui/theme` | Light, dark or the device's choice: `applyTheme`, `resolveTheme`, and a browser copy for the first paint (`readLocalTheme`, `saveLocalTheme`). |
 | `connectinq-ui/display` | `useIsPhone()` (below 600 px), `useIsWide()` (960 px and up). |
 | `connectinq-ui/glyphs` | The SVG paths the components draw (Material Design Icons, Apache 2.0). |
 
@@ -55,6 +59,13 @@ runs `npm update connectinq-ui` there and commits the lock. When a front merges 
 ```ts
 // main.ts
 import 'connectinq-ui/cq.css'
+```
+
+The dark theme is `data-cq-theme="dark"` on `<html>`, set by `applyTheme`. To paint the first
+screen in the right theme, put this before the bundle in `index.html`, with the front's key:
+
+```html
+<script>try{var t=localStorage.getItem('app-theme');if(t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.dataset.cqTheme='dark'}catch(e){}</script>
 ```
 
 ```ts

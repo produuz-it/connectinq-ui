@@ -116,7 +116,7 @@ function pick(row: CompanyRow) {
 /* Staff only: the same word in every language, so it is not translated. */
 .cq-staff-chip {
   flex: none; display: inline-flex; align-items: center; height: 16px; padding: 0 6px; border-radius: 4px;
-  background: var(--cq-staff); color: var(--cq-white); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; line-height: 1;
+  background: var(--cq-staff); color: var(--cq-on-strong); font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; line-height: 1;
 }
 .cq-company-search {
   display: flex; align-items: center; gap: 6px; margin: 0 14px 8px; padding: 0 8px; height: 32px;

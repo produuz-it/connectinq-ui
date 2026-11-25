@@ -290,7 +290,7 @@ onBeforeUnmount(() => listen(false))
 }
 .tc-btn:hover { background: var(--cq-n50); }
 .tc-btn.primary { background: var(--cq-ink); border-color: var(--cq-ink); color: var(--cq-white); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-.tc-btn.primary:hover { background: var(--cq-accent); border-color: var(--cq-accent); color: var(--cq-ink); }
+.tc-btn.primary:hover { background: var(--cq-accent); border-color: var(--cq-accent); color: var(--cq-on-accent); }
 .tc-try { display: inline-flex; align-items: center; gap: 6px; padding: 0 8px; color: var(--cq-accent-hover); font-weight: 700; font-size: 12.5px; line-height: 1.3; min-width: 0; }
 @media (max-width: 599px) {
   .tc-btn { height: 44px; }

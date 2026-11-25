@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.6.0
+
+- **Dark theme.** `tokens.css` has a dark set of the same `--cq-*` names, switched on by
+  `data-cq-theme="dark"` on `<html>`: the page (`--cq-white`) and the text (`--cq-ink`) swap, the
+  neutral ramp turns over, the accent, the cool ramp and the marks stay. New tokens
+  `--cq-on-strong` (text on the cool ramp, red and vermilion, white in both themes) and
+  `--cq-on-accent` (text on the oranges, brand black in both themes); the components use them
+  where they used `--cq-white` or `--cq-ink` on a strong colour.
+- `connectinq-ui/theme`: `applyTheme(choice)` (`light`, `dark` or `auto`, which follows the
+  device), `resolveTheme`, `readLocalTheme` and `saveLocalTheme` for the copy a front keeps in the
+  browser to paint the first screen. Where the choice is kept is the front's.
+- `AccountMenu`: a *Theme* row (Light, Dark, Auto) when the front passes `themes`; it emits `theme`.
+- **The TEST tag is black** (`--cq-test-tag`, white text; light with dark text on the dark theme),
+  so no application's colour reads as test.
+- **One button for notifications, help and tickets**: `help/SupportButton.vue` (one glyph of its
+  own, two speech bubbles, and an orange dot while anything is unread, never a number) and
+  `help/SupportPanel.vue` (a drawer with three tabs, *Notifications*, *Help* and *New ticket*,
+  opened on Notifications unless the front asks for another tab). Built from three pieces that
+  are also exported: `HelpBook.vue` (the chapters), `TicketForm.vue` (the form and, under it, the
+  person's own tickets with their status) and `NotificationList.vue` (the rows, the dot, *Mark all
+  as read*). New types `TicketRow` and `NotificationRow` in `connectinq-ui/help`.
+- **Ticket, never issue.** The report form is *New ticket* in every front and language, in
+  `HelpPanel` too, so it is not taken for an issue of the product itself.
+- `HelpPanel` is drawn with `HelpBook` and `TicketForm`; its props are unchanged and it takes
+  `tickets` too. The dots of `HelpButton` stay round under `base.css`.
+- `connectinq-ui/platform`: *produuz.it Manage* (`manage`), with its mark (`MARKS.produuzitManage`,
+  the produuz.it mark in the cool half of the palette).
+
 ## 0.5.2
 
 - `HelpPanel`: the report form is called NEW ISSUE in every front and language, on its button and
