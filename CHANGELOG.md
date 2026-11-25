@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.1
+
+- The unread dots of `SupportButton` and `NotificationList` stay round in a front whose own styles
+  force square corners with `!important`.
+
 ## 0.6.0
 
 - **Dark theme.** `tokens.css` has a dark set of the same `--cq-*` names, switched on by

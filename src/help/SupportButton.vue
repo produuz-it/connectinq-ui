@@ -28,7 +28,7 @@ defineEmits<{ open: [] }>()
 .cq-support-btn.phone { width: 44px; height: 44px; }
 .cq-support-btn:hover { background: var(--cq-hover); }
 .cq-support-dot {
-  position: absolute; top: 3px; right: 3px; width: 8px; height: 8px; border-radius: 50%;
+  position: absolute; top: 3px; right: 3px; width: 8px; height: 8px; border-radius: 50% !important;
   background: var(--cq-accent-hover); box-shadow: 0 0 0 2px var(--cq-white);
 }
 .cq-support-btn.phone .cq-support-dot { top: 8px; right: 8px; }

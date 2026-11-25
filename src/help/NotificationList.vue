@@ -81,5 +81,5 @@ const ICONS = { info: LucideInfo, success: LucideCircleCheck, warning: LucideTri
 .nl-row.unread .nl-text b { font-weight: 800; }
 .nl-text small { display: block; font-size: 11.5px; color: var(--cq-n500); }
 .nl-when { font-family: var(--cq-mono); font-size: 10.5px !important; color: var(--cq-n400) !important; margin-top: 2px; }
-.nl-dot { width: 8px; height: 8px; flex: none; margin-top: 5px; border-radius: 50%; background: var(--cq-accent-hover); }
+.nl-dot { width: 8px; height: 8px; flex: none; margin-top: 5px; border-radius: 50% !important; background: var(--cq-accent-hover); }
 </style>
