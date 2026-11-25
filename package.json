@@ -1,6 +1,6 @@
 {
   "name": "connectinq-ui",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "The shared look of the ConnectinQ front-ends: design tokens, base styles, and a few Vue components.",
   "private": true,
   "type": "module",
@@ -21,7 +21,9 @@
     "./tour": "./src/tour/index.ts",
     "./tour/*.vue": "./src/tour/*.vue",
     "./help": "./src/help/index.ts",
-    "./help/*.vue": "./src/help/*.vue"
+    "./help/*.vue": "./src/help/*.vue",
+    "./lists/*.vue": "./src/lists/*.vue",
+    "./charts/*.vue": "./src/charts/*.vue"
   },
   "scripts": {
     "check": "vue-tsc --noEmit -p tsconfig.json",
