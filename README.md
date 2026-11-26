@@ -25,6 +25,7 @@ on floating panels.
 | `connectinq-ui/help/SupportButton.vue` | The one button for notifications, help and tickets: its own glyph (two speech bubbles) and an orange dot while anything is unread. |
 | `connectinq-ui/help/SupportPanel.vue` | Its panel: *Notifications*, *Help* and *New ticket* tabs, opened on Notifications. The front passes the rows, the book and `send`, and reacts to the events. |
 | `connectinq-ui/help/HelpBook.vue`, `TicketForm.vue`, `NotificationList.vue` | The three pieces of the panel, for a front that draws them elsewhere. |
+| `connectinq-ui/help/TicketThread.vue` | The conversation about one ticket with the team, opened from `TicketForm`'s list when the front passes `loadThread` and `postMessage`. |
 | `connectinq-ui/ModalDialog.vue` | A modal on the native `<dialog>`: centred, side drawer, bottom sheet or full screen. |
 | `connectinq-ui/PopButton.vue` | A button that opens a floating panel (menus, switchers); a sheet on a phone. |
 | `connectinq-ui/CompanySwitch.vue` | The company the account works in, in the side menu; staff change it from a searchable list. |

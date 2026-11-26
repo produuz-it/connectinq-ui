@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.8.0
+
+- **A conversation about a ticket.** In `TicketForm` (and so in `SupportPanel`'s *New ticket* tab) a
+  ticket in the person's list opens its conversation with the team when the front passes
+  `loadThread` and `postMessage`: the messages, oldest first, the person's own on the right, and a
+  box to write one more while the ticket is open (Ctrl or Cmd + Enter sends). The open conversation
+  is read again every 10 s (`threadPollMs`), not while the page is hidden. A row shows how many
+  messages it has, with a dot while the team's are unread. `focusTicket` opens that conversation.
+- New `help/TicketThread.vue`, and the types `TicketThread` and `TicketMessageRow`; `TicketRow` has
+  `messages` and `unread`. `TicketLabels` takes the conversation's words (`conversation`, `back`,
+  `writeMessage`, `sendMessage`, `threadEmpty`, `threadClosed`, `threadFailed`, `messageFailed`),
+  each with an English default.
+- `SupportPanel` emits `thread-changed` when a conversation was read or written in, so the front
+  can read the list again.
+- The library still makes no call of its own: where the messages are kept is the front's business.
+
 ## 0.6.1
 
 - The unread dots of `SupportButton` and `NotificationList` stay round in a front whose own styles

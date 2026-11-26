@@ -7,12 +7,14 @@
  *   (`startTab`, such as the ticket a notification was about).
  * - Help is the front's book (HelpBook), opened on the chapter of the screen the person is on,
  *   with the front's tutorials when it fills the `tutorials` slot.
- * - New ticket is the form (TicketForm) and, under it, the person's own tickets. The tab reads
+ * - New ticket is the form (TicketForm) and, under it, the person's own tickets; with `loadThread`
+ *   and `postMessage` each opens its conversation with the team (TicketThread). The tab reads
  *   *New ticket* in every front and language (`NEW_TICKET`): the same action everywhere, and a
  *   *ticket*, never an *issue*, so it is not taken for an issue of the product itself.
  *
  * The front loads the notifications and the tickets when the panel opens (`opened`), words them,
- * and reacts to `notification-open`, `read-all`, `news-seen` and `ticket-sent`. The panel makes
+ * and reacts to `notification-open`, `read-all`, `news-seen`, `ticket-sent` and `thread-changed`
+ * (a conversation was read or written in: the list's counts are stale). The panel makes
  * no call of its own. A native <dialog> opened with `showModal()`; a click on the backdrop closes it.
  */
 import { computed, onMounted, ref, watch } from 'vue'
@@ -21,7 +23,7 @@ import { useIsPhone } from '../display'
 import HelpBook from './HelpBook.vue'
 import NotificationList from './NotificationList.vue'
 import TicketForm, { type TicketLabels } from './TicketForm.vue'
-import type { HelpBook as Book, NotificationRow, ReportContext, ReportDraft, TicketRow } from './index'
+import type { HelpBook as Book, NotificationRow, ReportContext, ReportDraft, TicketRow, TicketThread } from './index'
 
 export type SupportTab = 'notifications' | 'help' | 'ticket'
 
@@ -57,11 +59,17 @@ const props = withDefaults(defineProps<{
   context?: () => ReportContext
   tickets?: TicketRow[]
   focusTicket?: string
+  /** Reads a ticket's conversation and marks it read; with `postMessage`, a ticket opens its conversation. */
+  loadThread?: (key: string) => Promise<TicketThread>
+  postMessage?: (key: string, text: string) => Promise<void>
+  /** How often an open conversation is read again, in milliseconds (10 s when not given). */
+  threadPollMs?: number
   /** The tab to open on next time; Notifications when not given. */
   startTab?: SupportTab
 }>(), {
   chapter: undefined, newsChapter: undefined, imageUrl: undefined, notificationsLoading: false, notificationsError: undefined,
   notificationsMore: undefined, send: undefined, context: undefined, tickets: undefined, focusTicket: undefined, startTab: undefined,
+  loadThread: undefined, postMessage: undefined, threadPollMs: undefined,
 })
 
 /** The name of the ticket tab, the same in every front and language. */
@@ -73,6 +81,7 @@ const emit = defineEmits<{
   'read-all': []
   'news-seen': []
   'ticket-sent': []
+  'thread-changed': [key: string]
 }>()
 const open = defineModel<boolean>({ default: false })
 const tab = defineModel<SupportTab>('tab', { default: 'notifications' })
@@ -138,7 +147,8 @@ const tabs = computed(() => [
       </HelpBook>
       <div v-else-if="tab === 'ticket' && send" class="sp-body padded">
         <TicketForm :labels="labels" :send="send" :context="context" :tickets="tickets" :focus="focusTicket" :phone="phone"
-                    @sent="emit('ticket-sent')" />
+                    :load-thread="loadThread" :post-message="postMessage" :poll-ms="threadPollMs"
+                    @sent="emit('ticket-sent')" @thread-changed="(key) => emit('thread-changed', key)" />
       </div>
     </div>
   </dialog>

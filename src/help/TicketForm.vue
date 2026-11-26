@@ -6,13 +6,21 @@
  * tickets with their status. Where a ticket goes is the front's business: the form calls `send`
  * and says whether it worked.
  *
+ * With `loadThread` and `postMessage`, a ticket in the list opens its conversation with the team
+ * (TicketThread) in place of the form; a row shows a dot while the team's messages are unread.
+ * `focus` (the ticket a notification was about) opens that conversation at once.
+ *
  * It is a *ticket* in every front and language, never an *issue*, so it is not taken for an issue
  * of the product itself.
  */
-import { computed, ref } from 'vue'
-import { collectContext, type ReportContext, type ReportDraft, type ReportKind, type TicketRow } from './index'
+import { computed, ref, watch } from 'vue'
+import { LucideMessageSquare } from '@lucide/vue'
+import TicketThreadView, { type ThreadLabels } from './TicketThread.vue'
+import {
+  collectContext, type ReportContext, type ReportDraft, type ReportKind, type TicketRow, type TicketThread,
+} from './index'
 
-export interface TicketLabels {
+export interface TicketLabels extends ThreadLabels {
   reportIntro: string
   issue: string
   suggestion: string
@@ -37,10 +45,33 @@ const props = withDefaults(defineProps<{
   tickets?: TicketRow[]
   /** A ticket to show lit, the one a notification was about. */
   focus?: string
+  /** Reads a ticket's conversation (and marks it read); without it the rows open nothing. */
+  loadThread?: (key: string) => Promise<TicketThread>
+  /** Sends a message about a ticket. */
+  postMessage?: (key: string, text: string) => Promise<void>
+  pollMs?: number
   phone?: boolean
-}>(), { context: undefined, tickets: undefined, focus: undefined, phone: false })
+}>(), {
+  context: undefined, tickets: undefined, focus: undefined, loadThread: undefined, postMessage: undefined,
+  pollMs: undefined, phone: false,
+})
 
-const emit = defineEmits<{ sent: [] }>()
+const emit = defineEmits<{ sent: []; 'thread-changed': [key: string] }>()
+
+const threads = computed(() => Boolean(props.loadThread && props.postMessage))
+const openKey = ref<string | null>(null)
+const openRow = computed(() => props.tickets?.find((t) => t.key === openKey.value) ?? null)
+// The ticket a notification was about opens once, as soon as it is in the list.
+let focusOpened = ''
+watch(() => [props.focus, props.tickets] as const, ([focus, tickets]) => {
+  if (!threads.value || !focus || focus === focusOpened || !tickets?.some((t) => t.key === focus)) return
+  focusOpened = focus
+  openKey.value = focus
+}, { immediate: true })
+
+function openThread(key: string) {
+  if (threads.value) openKey.value = key
+}
 
 const kind = ref<ReportKind>('issue')
 const title = ref('')
@@ -78,6 +109,10 @@ function another() {
 
 <template>
   <div class="tf" :class="{ phone }">
+    <TicketThreadView v-if="threads && openRow && loadThread && postMessage" :key="openRow.key" :labels="labels"
+                      :row="openRow" :load="loadThread" :post="postMessage" :poll-ms="pollMs" :phone="phone"
+                      @back="openKey = null" @changed="emit('thread-changed', openRow.key)" />
+    <template v-else>
     <form class="tf-form" @submit.prevent="submit">
       <template v-if="state !== 'sent'">
         <p class="tf-hint">{{ labels.reportIntro }}</p>
@@ -117,15 +152,21 @@ function another() {
     <section v-if="tickets" class="tf-list">
       <h3>{{ labels.yourTickets }}</h3>
       <p v-if="!tickets.length" class="tf-hint">{{ labels.noTickets }}</p>
-      <div v-for="row in tickets" :key="row.key" class="tf-row" :class="{ lit: row.key === focus }">
+      <component :is="threads ? 'button' : 'div'" v-for="row in tickets" :key="row.key" class="tf-row"
+                 :class="{ lit: row.key === focus }" :type="threads ? 'button' : undefined" @click="openThread(row.key)">
         <div class="tf-main">
           <b>{{ row.title }}</b>
           <small><span>{{ row.kindLabel }}</span> · <span class="mono">{{ row.when }}</span></small>
           <small v-if="row.reply" class="tf-reply">{{ row.reply }}</small>
         </div>
+        <span v-if="threads && row.messages" class="tf-count" :class="{ unread: row.unread }"
+              :title="labels.conversation ?? 'Conversation'">
+          <LucideMessageSquare :size="13" />{{ row.messages }}<i v-if="row.unread" class="tf-dot" />
+        </span>
         <span class="tf-chip" :class="row.status">{{ row.statusLabel }}</span>
-      </div>
+      </component>
     </section>
+    </template>
   </div>
 </template>
 
@@ -173,6 +214,17 @@ function another() {
 .tf-list { border-top: 1px solid var(--cq-n100); padding-top: 14px; }
 .tf-list h3 { margin: 0 0 8px; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cq-accent-hover); }
 .tf-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--cq-n100); }
+button.tf-row {
+  width: 100%; margin: 0; border-width: 0 0 1px; border-style: solid; border-color: var(--cq-n100); border-radius: 0;
+  background: none; color: inherit; font: inherit; text-align: start; cursor: pointer;
+}
+button.tf-row:hover { background: var(--cq-n50); }
+button.tf-row:focus-visible { outline: 2px solid var(--cq-accent); outline-offset: -2px; }
+.phone button.tf-row { min-height: 52px; }
+.tf-count { position: relative; flex: none; display: inline-flex; align-items: center; gap: 4px; height: 20px;
+  font-family: var(--cq-mono); font-size: 11px; color: var(--cq-n500); }
+.tf-count.unread { color: var(--cq-ink); font-weight: 800; }
+.tf-dot { position: absolute; top: -1px; left: 9px; width: 7px; height: 7px; border-radius: 50% !important; background: var(--cq-accent); }
 .tf-row.lit { background: var(--cq-selected); box-shadow: inset 3px 0 0 var(--cq-accent); padding-left: 8px; }
 .tf-main { flex: 1; min-width: 0; line-height: 1.35; }
 .tf-main b { display: block; font-size: 13px; overflow-wrap: anywhere; }

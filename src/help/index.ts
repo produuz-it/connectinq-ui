@@ -41,6 +41,27 @@ export interface TicketRow {
   when: string
   /** What the team answered, when the front has it. */
   reply?: string
+  /** How many messages its conversation with the team has, and how many of the team's are unread. */
+  messages?: number
+  unread?: number
+}
+
+/** One message in the conversation about a ticket, as the front words it. */
+export interface TicketMessageRow {
+  key: string
+  /** Written by the person themselves (drawn on the right); false for the team's. */
+  mine: boolean
+  /** Who wrote it: the team member's name, or the person's own. */
+  author: string
+  text: string
+  /** When, already formatted by the front. */
+  when: string
+}
+
+/** The conversation about one ticket: its messages, oldest first, and whether the person may still write. */
+export interface TicketThread {
+  canWrite: boolean
+  messages: TicketMessageRow[]
 }
 
 /** One notification, as the front words it. */
