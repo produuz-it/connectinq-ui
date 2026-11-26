@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.2
+
+- `lists/DataTable.vue`: a column's `hideBelow` works for any width. Only 1200, 1000 and 800 hid a
+  column before; any other value was ignored, so the table grew wider than its place and the
+  last columns (the row actions) were cut.
+
 ## 0.8.1
 
 - `lists/DataTable.vue`: `selecting` shows the phone rows' checkboxes before anything is

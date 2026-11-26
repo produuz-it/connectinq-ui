@@ -6,7 +6,7 @@
  * the `phone` slot draws each row (usually a PhoneRow). 
  * connectinq-ui.
  */
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { LucideArrowDown, LucideArrowUp } from '@lucide/vue'
 import { useIsPhone } from '../display'
 
@@ -18,7 +18,7 @@ export interface Column {
   mono?: boolean
   sortable?: boolean
   width?: string
-  /** Hidden below this width (px) on the desk: the less needed columns go first. */
+  /** Hidden while the window is this wide (px) or narrower, on the desk: the less needed columns go first. Any width. */
   hideBelow?: number
 }
 
@@ -49,6 +49,13 @@ const selected = defineModel<string[]>('selected', { default: () => [] })
 const sort = defineModel<Sort | null>('sort', { default: null })
 
 const phone = useIsPhone()
+
+// The columns that fit: a column leaves when the window is as narrow as its `hideBelow`.
+const windowWidth = ref(typeof window === 'undefined' ? Number.POSITIVE_INFINITY : window.innerWidth)
+const followWidth = () => { windowWidth.value = window.innerWidth }
+onMounted(() => window.addEventListener('resize', followWidth, { passive: true }))
+onBeforeUnmount(() => window.removeEventListener('resize', followWidth))
+const shown = computed(() => props.columns.filter((column) => !column.hideBelow || windowWidth.value > column.hideBelow))
 
 const keys = computed(() => props.rows.map(props.rowKey))
 const allSelected = computed(() => keys.value.length > 0 && keys.value.every((key) => selected.value.includes(key)))
@@ -112,8 +119,8 @@ function value(row: Row, key: string): unknown {
             <th v-if="selectable" class="dt-check">
               <input type="checkbox" :checked="allSelected" :indeterminate="someSelected" :aria-label="'all'" @change="toggleAll" />
             </th>
-            <th v-for="column in columns" :key="column.key" :class="[column.align, { sortable: column.sortable }]"
-                :style="{ width: column.width }" :data-hide-below="column.hideBelow"
+            <th v-for="column in shown" :key="column.key" :class="[column.align, { sortable: column.sortable }]"
+                :style="{ width: column.width }"
                 :aria-sort="sort?.key === column.key ? (sort.dir === 'asc' ? 'ascending' : 'descending') : undefined"
                 @click="sortBy(column)">
               <span class="dt-th">{{ column.label }}
@@ -125,12 +132,12 @@ function value(row: Row, key: string): unknown {
         </thead>
         <tbody>
           <template v-for="item in items" :key="item.key">
-            <tr v-if="item.group !== undefined" class="dt-grp"><td :colspan="columns.length + (selectable ? 1 : 0)">{{ item.group }}</td></tr>
+            <tr v-if="item.group !== undefined" class="dt-grp"><td :colspan="shown.length + (selectable ? 1 : 0)">{{ item.group }}</td></tr>
             <tr v-else :class="{ click: clickable, on: item.key === openKey }" @click="clickable && emit('open', item.row as Row)">
               <td v-if="selectable" class="dt-check" @click.stop>
                 <input type="checkbox" :checked="selected.includes(item.key)" :aria-label="item.key" @change="toggle(item.key)" />
               </td>
-              <td v-for="column in columns" :key="column.key" :class="[column.align, { mono: column.mono }]" :data-hide-below="column.hideBelow">
+              <td v-for="column in shown" :key="column.key" :class="[column.align, { mono: column.mono }]">
                 <slot :name="`cell-${column.key}`" :row="item.row as Row">{{ value(item.row as Row, column.key) ?? '—' }}</slot>
               </td>
             </tr>
@@ -162,7 +169,4 @@ function value(row: Row, key: string): unknown {
 .dt-phone-row > :last-child { flex: 1; min-width: 0; }
 .dt-phone-check { display: flex; align-items: center; padding-left: 12px; }
 .dt-phone-check input { width: 20px; height: 20px; }
-@media (max-width: 1200px) { .dt-table [data-hide-below="1200"] { display: none; } }
-@media (max-width: 1000px) { .dt-table [data-hide-below="1000"] { display: none; } }
-@media (max-width: 800px) { .dt-table [data-hide-below="800"] { display: none; } }
 </style>
