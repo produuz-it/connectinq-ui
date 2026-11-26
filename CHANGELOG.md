@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.7.1
+
+- `lists/RowActions.vue`: an action takes `disabled` and `reason`. It stays in its place, as a
+  disabled button whose tooltip says why, or a disabled menu row with the reason under its label.
+
+## 0.7.0
+
+- **Lists and charts**, moved here from produuz.it Manage: `lists/DataTable.vue`, `PhoneRow.vue`,
+  `FilterBar.vue`, `SelectionBar.vue`, `PickField.vue`, `RowActions.vue`, `DetailDrawer.vue`,
+  `StatusChip.vue`, `DynamicForm.vue`, `AppLink.vue`, and `charts/BarChart.vue`, `StackRows.vue`,
+  `ChartCard.vue`.
+- A switch style for `input[role=switch]` in `base.css`.
+
 ## 0.6.1
 
 - The unread dots of `SupportButton` and `NotificationList` stay round in a front whose own styles
