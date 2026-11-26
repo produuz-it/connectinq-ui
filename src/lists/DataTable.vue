@@ -31,6 +31,8 @@ const props = withDefaults(defineProps<{
   /** Groups: the group's title for each row; rows of one group must be next to each other. */
   groupOf?: (row: Row) => string
   selectable?: boolean
+  /** On a phone selection is a mode: the checkboxes show while this is on, or while rows are selected. */
+  selecting?: boolean
   loading?: boolean
   empty?: string
   loadingText?: string
@@ -40,7 +42,7 @@ const props = withDefaults(defineProps<{
   clickable?: boolean
   /** A fixed height scrolls the body with a sticky header. */
   maxHeight?: string
-}>(), { groupOf: undefined, selectable: false, loading: false, empty: '', loadingText: '', openKey: '', clickable: true, maxHeight: '' })
+}>(), { groupOf: undefined, selectable: false, selecting: false, loading: false, empty: '', loadingText: '', openKey: '', clickable: true, maxHeight: '' })
 
 const emit = defineEmits<{ open: [row: Row] }>()
 const selected = defineModel<string[]>('selected', { default: () => [] })
@@ -95,7 +97,7 @@ function value(row: Row, key: string): unknown {
       <template v-for="item in items" :key="item.key">
         <div v-if="item.group !== undefined" class="dt-group">{{ item.group }}</div>
         <div v-else class="dt-phone-row" :class="{ on: item.key === openKey, sel: selectable && selected.includes(item.key) }">
-          <label v-if="selectable && selected.length" class="dt-phone-check" @click.stop>
+          <label v-if="selectable && (selecting || selected.length)" class="dt-phone-check" @click.stop>
             <input type="checkbox" :checked="selected.includes(item.key)" @change="toggle(item.key)" />
           </label>
           <slot name="phone" :row="item.row as Row" :open="() => emit('open', item.row as Row)" />

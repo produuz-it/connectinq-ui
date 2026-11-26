@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.1
+
+- `lists/DataTable.vue`: `selecting` shows the phone rows' checkboxes before anything is
+  selected, so a front can offer a *Select* button (on a phone selection is a mode).
+
 ## 0.8.0
 
 - `help/SupportPanel.vue`: the third tab is **Tickets** (it was *New ticket*): the person's own
