@@ -1,15 +1,17 @@
 <script setup lang="ts">
 /**
- * A ticket: a problem or a suggestion the person sends to the team behind the front, with what
- * the browser says about where they are (`collectContext`) and what the front adds (`context`),
- * all shown before it is sent. Under the form, when the front passes `tickets`, the person's own
- * tickets with their status. Where a ticket goes is the front's business: the form calls `send`
- * and says whether it worked.
+ * Tickets: the problems and suggestions the person sends to the team behind the front. *New
+ * ticket* is a row at the top: it opens the form under it, with what the browser says about
+ * where the person is (`collectContext`) and what the front adds (`context`), all shown before
+ * it is sent. Below, when the front passes `tickets`, the person's own tickets with their
+ * status. Where a ticket goes is the front's business: the form calls `send` and says whether it
+ * worked. `startOpen` shows the form at once, for a place that is only the form.
  *
  * It is a *ticket* in every front and language, never an *issue*, so it is not taken for an issue
  * of the product itself.
  */
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
+import { LucideChevronDown, LucideChevronUp, LucidePlus } from '@lucide/vue'
 import { collectContext, type ReportContext, type ReportDraft, type ReportKind, type TicketRow } from './index'
 
 export interface TicketLabels {
@@ -38,7 +40,12 @@ const props = withDefaults(defineProps<{
   /** A ticket to show lit, the one a notification was about. */
   focus?: string
   phone?: boolean
-}>(), { context: undefined, tickets: undefined, focus: undefined, phone: false })
+  /** The form is open from the start. */
+  startOpen?: boolean
+}>(), { context: undefined, tickets: undefined, focus: undefined, phone: false, startOpen: false })
+
+/** The name of the action, the same in every front and language. */
+const NEW_TICKET = 'New ticket'
 
 const emit = defineEmits<{ sent: [] }>()
 
@@ -47,6 +54,8 @@ const title = ref('')
 const description = ref('')
 const details = ref<ReportContext>({})
 const state = ref<'idle' | 'sending' | 'sent' | 'failed'>('idle')
+const adding = ref(props.startOpen)
+const titleInput = ref<HTMLInputElement | null>(null)
 
 function refreshContext() {
   details.value = collectContext(props.context ? props.context() : {})
@@ -74,11 +83,24 @@ function another() {
   state.value = 'idle'
   refreshContext()
 }
+
+async function toggle() {
+  adding.value = !adding.value
+  if (!adding.value) return
+  // A ticket sent before leaves the form ready for the next one.
+  if (state.value === 'sent') another()
+  else refreshContext()
+  await nextTick()
+  titleInput.value?.focus()
+}
 </script>
 
 <template>
   <div class="tf" :class="{ phone }">
-    <form class="tf-form" @submit.prevent="submit">
+    <button type="button" class="tf-new" :class="{ on: adding }" :aria-expanded="adding" @click="toggle">
+      <LucidePlus :size="16" /><span>{{ NEW_TICKET }}</span><component :is="adding ? LucideChevronUp : LucideChevronDown" :size="16" />
+    </button>
+    <form v-if="adding" class="tf-form" @submit.prevent="submit">
       <template v-if="state !== 'sent'">
         <p class="tf-hint">{{ labels.reportIntro }}</p>
         <div class="tf-kinds" role="radiogroup">
@@ -87,7 +109,7 @@ function another() {
         </div>
         <label class="tf-field">
           <span>{{ labels.reportTitle }}</span>
-          <input v-model="title" type="text" maxlength="200" required>
+          <input ref="titleInput" v-model="title" type="text" maxlength="200" required>
         </label>
         <label class="tf-field">
           <span>{{ labels.reportDescription }}</span>
@@ -130,7 +152,15 @@ function another() {
 </template>
 
 <style scoped>
-.tf { display: flex; flex-direction: column; gap: 22px; }
+.tf { display: flex; flex-direction: column; gap: 16px; }
+.tf-new {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 0 12px; border: 1px solid var(--cq-n200);
+  background: var(--cq-white); color: var(--cq-ink); font: inherit; font-size: 12px; font-weight: 800; letter-spacing: 0.06em;
+  text-transform: uppercase; text-align: start; cursor: pointer;
+}
+.tf-new > span { flex: 1; }
+.tf-new:hover, .tf-new.on { border-color: var(--cq-ink); }
+.phone .tf-new { min-height: 48px; }
 .tf-form { display: flex; flex-direction: column; gap: 14px; }
 .tf-hint { margin: 0; font-size: 12px; color: var(--cq-n500); }
 .tf-kinds { display: flex; flex-wrap: wrap; gap: 6px 18px; }
@@ -170,7 +200,7 @@ function another() {
 @keyframes tf-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .tf-spinner { animation: none; } }
 
-.tf-list { border-top: 1px solid var(--cq-n100); padding-top: 14px; }
+.tf-list { padding-top: 2px; }
 .tf-list h3 { margin: 0 0 8px; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cq-accent-hover); }
 .tf-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--cq-n100); }
 .tf-row.lit { background: var(--cq-selected); box-shadow: inset 3px 0 0 var(--cq-accent); padding-left: 8px; }

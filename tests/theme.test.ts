@@ -95,4 +95,22 @@ describe('SupportPanel', () => {
     expect(tab.value).toBe('ticket')
     app.unmount()
   })
+
+  it('names the tab Tickets and opens the form from New ticket at the top', async () => {
+    const { open, app } = mount('ticket')
+    open.value = true
+    await nextTick()
+    await nextTick()
+    const panel = document.body.lastElementChild as HTMLElement
+    const tabs = [...panel.querySelectorAll('[role=tab]')].map((el) => el.textContent?.trim())
+    expect(tabs).toEqual(['Notifications', 'Help', 'Tickets'])
+    const add = panel.querySelector<HTMLButtonElement>('.tf-new')
+    expect(add?.textContent).toContain('New ticket')
+    expect(panel.querySelector('.tf-form')).toBeNull()
+    add?.click()
+    await nextTick()
+    expect(panel.querySelector('.tf-form')).not.toBeNull()
+    expect(add?.getAttribute('aria-expanded')).toBe('true')
+    app.unmount()
+  })
 })

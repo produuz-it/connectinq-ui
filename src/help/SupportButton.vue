@@ -2,8 +2,9 @@
 /**
  * The one button for notifications, help and tickets, in the head of the menu. One glyph of its
  * own, two speech bubbles, one each way (what comes to the person and what they send), drawn on
- * Lucide's grid so it sits beside the menu's other icons. An orange dot while anything is unread
- * (a notification or what is new in the help); never a number. Self-contained like the frame.
+ * Lucide's grid so it sits beside the menu's other icons. An orange dot only while the person
+ * has something unread addressed to them (a notification, an answer to a ticket), never for what
+ * is new in the help, and never a number. Self-contained like the frame.
  */
 defineProps<{ label: string; unread?: boolean; phone?: boolean }>()
 defineEmits<{ open: [] }>()

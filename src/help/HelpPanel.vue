@@ -118,7 +118,7 @@ const bookView = computed({
       </header>
 
       <div v-if="view === 'report' && send" class="hp-body">
-        <TicketForm :labels="labels" :send="send" :context="context" :tickets="tickets" :phone="phone" @sent="emit('ticket-sent')" />
+        <TicketForm start-open :labels="labels" :send="send" :context="context" :tickets="tickets" :phone="phone" @sent="emit('ticket-sent')" />
       </div>
       <HelpBook v-else v-model:view="bookView" :book="book" :labels="labels" :image-url="imageUrl" :phone="phone">
         <template v-if="$slots.tutorials" #tutorials><slot name="tutorials" /></template>
@@ -129,12 +129,13 @@ const bookView = computed({
 
 <style scoped>
 .cq-help {
-  margin: 0 0 0 auto; padding: 0; width: 520px; max-width: 100vw; height: 100dvh; max-height: 100dvh;
+  margin: 0 0 0 auto; padding: 0; width: 760px; max-width: 100vw; height: 100dvh; max-height: 100dvh;
   border: 0; border-left: 1px solid var(--cq-n200); background: var(--cq-white); color: var(--cq-ink);
   box-shadow: var(--cq-float-shadow); font-family: var(--cq-font); font-size: 13px; line-height: 1.5;
   text-align: start; text-transform: none; letter-spacing: normal; font-weight: 400; overscroll-behavior: contain;
 }
 .cq-help.phone { width: 100vw; border-left: 0; box-shadow: none; }
+@media (max-width: 999px) { .cq-help { width: 100vw; border-left: 0; box-shadow: none; } }
 .cq-help::backdrop { background: var(--cq-scrim); }
 .hp { position: relative; display: flex; flex-direction: column; height: 100%; min-height: 0; }
 .hp-head { flex: none; display: flex; align-items: flex-start; gap: 10px; padding: 14px 10px 4px 18px; }

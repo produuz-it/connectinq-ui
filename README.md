@@ -23,7 +23,7 @@ on floating panels.
 | `connectinq-ui/help/HelpPanel.vue` | The help in a drawer: the book opened on the screen's chapter, a *Tutorials* tab (`tutorials` slot) and a *Report* tab for an issue or a suggestion when the front passes `send`. |
 | `connectinq-ui/help/HelpButton.vue` | The `?` that opens it, with a dot while something new is unread. |
 | `connectinq-ui/help/SupportButton.vue` | The one button for notifications, help and tickets: its own glyph (two speech bubbles) and an orange dot while anything is unread. |
-| `connectinq-ui/help/SupportPanel.vue` | Its panel: *Notifications*, *Help* and *New ticket* tabs, opened on Notifications. The front passes the rows, the book and `send`, and reacts to the events. |
+| `connectinq-ui/help/SupportPanel.vue` | Its panel: *Notifications*, *Help* and *Tickets* tabs, opened on Notifications. Tickets lists the person's tickets, with *New ticket* at the top opening the form. 760 px wide, the whole window below 1000 px. The front passes the rows, the book and `send`, and reacts to the events. |
 | `connectinq-ui/help/HelpBook.vue`, `TicketForm.vue`, `NotificationList.vue` | The three pieces of the panel, for a front that draws them elsewhere. |
 | `connectinq-ui/ModalDialog.vue` | A modal on the native `<dialog>`: centred, side drawer, bottom sheet or full screen. |
 | `connectinq-ui/PopButton.vue` | A button that opens a floating panel (menus, switchers); a sheet on a phone. |

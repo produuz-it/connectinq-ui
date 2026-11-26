@@ -1,15 +1,16 @@
 <script setup lang="ts">
 /**
- * The panel behind the one button for notifications, help and tickets: a drawer on the right
- * (full screen on a phone) with three tabs, **Notifications**, **Help** and **New ticket**.
+ * The panel behind the one button for notifications, help and tickets: a drawer on the right,
+ * 760 px wide so the help's screenshots, diagrams and infographics can be read in place, and the
+ * whole window below 1000 px. Three tabs, **Notifications**, **Help** and **Tickets**.
  *
  * - It always opens on Notifications, unless the front asks for another tab when it opens it
  *   (`startTab`, such as the ticket a notification was about).
  * - Help is the front's book (HelpBook), opened on the chapter of the screen the person is on,
  *   with the front's tutorials when it fills the `tutorials` slot.
- * - New ticket is the form (TicketForm) and, under it, the person's own tickets. The tab reads
- *   *New ticket* in every front and language (`NEW_TICKET`): the same action everywhere, and a
- *   *ticket*, never an *issue*, so it is not taken for an issue of the product itself.
+ * - Tickets is the person's own tickets, with *New ticket* at the top, which opens the form
+ *   (TicketForm). Both read the same in every front and language (`TICKETS`): a *ticket*, never
+ *   an *issue*, so it is not taken for an issue of the product itself.
  *
  * The front loads the notifications and the tickets when the panel opens (`opened`), words them,
  * and reacts to `notification-open`, `read-all`, `news-seen` and `ticket-sent`. The panel makes
@@ -52,7 +53,7 @@ const props = withDefaults(defineProps<{
   notificationsLoading?: boolean
   notificationsError?: string
   notificationsMore?: string
-  /** Sends a ticket; without it there is no New ticket tab. */
+  /** Sends a ticket; without it there is no Tickets tab. */
   send?: (draft: ReportDraft, context: ReportContext) => Promise<void>
   context?: () => ReportContext
   tickets?: TicketRow[]
@@ -65,7 +66,7 @@ const props = withDefaults(defineProps<{
 })
 
 /** The name of the ticket tab, the same in every front and language. */
-const NEW_TICKET = 'New ticket'
+const TICKETS = 'Tickets'
 
 const emit = defineEmits<{
   opened: []
@@ -108,7 +109,7 @@ watch([tab, chapterView], ([t, c]) => {
 const tabs = computed(() => [
   { key: 'notifications' as const, label: props.labels.notifications },
   { key: 'help' as const, label: props.labels.help },
-  ...(props.send ? [{ key: 'ticket' as const, label: NEW_TICKET }] : []),
+  ...(props.send ? [{ key: 'ticket' as const, label: TICKETS }] : []),
 ])
 </script>
 
@@ -146,12 +147,14 @@ const tabs = computed(() => [
 
 <style scoped>
 .cq-support {
-  margin: 0 0 0 auto; padding: 0; width: 460px; max-width: 100vw; height: 100dvh; max-height: 100dvh;
+  margin: 0 0 0 auto; padding: 0; width: 760px; max-width: 100vw; height: 100dvh; max-height: 100dvh;
   border: 0; border-left: 1px solid var(--cq-n200); background: var(--cq-white); color: var(--cq-ink);
   box-shadow: var(--cq-float-shadow); font-family: var(--cq-font); font-size: 13px; line-height: 1.5;
   text-align: start; text-transform: none; letter-spacing: normal; font-weight: 400; overscroll-behavior: contain;
 }
 .cq-support.phone { width: 100vw; border-left: 0; box-shadow: none; }
+/* A narrow window gives the panel all of it: a tablet upright, a split screen. */
+@media (max-width: 999px) { .cq-support { width: 100vw; border-left: 0; box-shadow: none; } }
 .cq-support::backdrop { background: var(--cq-scrim); }
 .sp { position: relative; display: flex; flex-direction: column; height: 100%; min-height: 0; }
 .sp-head { flex: none; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 6px 8px 6px 18px; }

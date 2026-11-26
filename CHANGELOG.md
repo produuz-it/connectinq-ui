@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.0
+
+- `help/SupportPanel.vue`: the third tab is **Tickets** (it was *New ticket*): the person's own
+  tickets, with **New ticket** as a row at the top that opens the form under it. `TicketForm`
+  takes `startOpen` for a place that is only the form (`HelpPanel` uses it).
+- `SupportPanel` and `HelpPanel` are **760 px wide** (they were 460 and 520), so screenshots,
+  diagrams and infographics can be read in the help, and take the whole window below 1000 px.
+- `help/SupportButton.vue`: the dot is for what is unread and addressed to the person (a
+  notification, an answer to a ticket). A front no longer lights it for what is new in the help.
+
 ## 0.7.1
 
 - `lists/RowActions.vue`: an action takes `disabled` and `reason`. It stays in its place, as a
