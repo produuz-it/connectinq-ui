@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0
+
+- `charts/HeatGrid.vue`: rows against buckets as a heat grid, one scale for the whole grid, the
+  figure in the cell when it can be read and always in its tooltip; `heatLevel` is exported with
+  it. Its ramp is four new tokens, `--cq-heat-1` … `--cq-heat-4`, with `--cq-heat-ink`.
+- `charts/RateLine.vue`: a rate over time, 0 to 100 %, that breaks at a bucket with no value
+  instead of drawing it as zero, with the 100 % target dashed and BarChart's tooltip.
+
 ## 0.8.2
 
 - `lists/DataTable.vue`: a column's `hideBelow` works for any width. Only 1200, 1000 and 800 hid a

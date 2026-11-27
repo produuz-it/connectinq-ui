@@ -49,6 +49,13 @@
   --cq-hover: rgba(26, 25, 24, 0.04);
   /* Floating panels (menus, dialogs, toasts) are the one place a shadow is allowed. */
   --cq-float-shadow: 0 6px 24px rgba(35, 31, 32, 0.14);
+  /* The heat grid's ordered ramp, light to dark, the same in both themes: the light steps carry
+     dark figures, the darkest one carries --cq-on-strong. */
+  --cq-heat-1: #cfe1f7;
+  --cq-heat-2: #9cc1ee;
+  --cq-heat-3: #5f9ae0;
+  --cq-heat-4: #2a78d6;
+  --cq-heat-ink: #0b0b0b;
   --cq-font: "Raleway", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --cq-mono: "Roboto Mono", ui-monospace, monospace;
 }
